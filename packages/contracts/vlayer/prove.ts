@@ -2,7 +2,6 @@ import { createVlayerClient } from "@vlayer/sdk";
 import {
   getConfig,
   createContext,
-  deployVlayerContracts,
   waitForContractDeploy,
 } from "@vlayer/sdk/config";
 
