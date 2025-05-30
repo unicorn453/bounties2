@@ -40,7 +40,9 @@ contract BugBountyRegistry is Verifier {
         string calldata severity,
         string calldata submissionId
     ) external {
-
+        // Verify the proof came from our prover contract
+        require(proof.callAssumptions.proverContractAddress == proverContract, "Invalid prover");
+        
         // Ensure submission ID hasn't been used
         require(!usedSubmissionIds[submissionId], "Submission already used");
         
