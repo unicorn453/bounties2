@@ -10,9 +10,11 @@ struct BugBountySubmission {
     address reporter;
     string platform;
     string severity;
-    string submissionId;
+    uint256 merits;
     uint256 timestamp;
-    bool isValid;
+    string submissionId;
+    bool verified;
+    uint256 tokenId;  // This will be set by the registry
 }
 
 contract BugBountyEmailProver is Prover {
@@ -128,6 +130,8 @@ contract BugBountyEmailProver is Prover {
             require(stringContains(dkimSignature, "d=immunefi.com"), "Invalid DKIM domain for Immunefi");
         } else if (stringContains(fromHeader, "intigriti.com")) {
             require(stringContains(dkimSignature, "d=intigriti.com"), "Invalid DKIM domain for Intigriti");
+        } else if (stringContains(fromHeader, "gmail.com")) {
+            require(stringContains(dkimSignature, "d=gmail.com"), "Invalid DKIM domain for Intigriti");
         } else {
             revert("Unsupported platform domain");
         }
@@ -135,7 +139,8 @@ contract BugBountyEmailProver is Prover {
         BugBountySubmission memory submission = parseEmailContent(emailContent);
         submission.reporter = msg.sender;
         submission.timestamp = block.timestamp;
-        submission.isValid = true;
+        submission.verified = true;
+        submission.tokenId = 0;  // This will be set by the registry
 
         // Create a proof that can be verified by the registry
         Proof memory proof = ProofLib.emptyProof();
@@ -187,18 +192,25 @@ contract BugBountyEmailProver is Prover {
         // Extract severity
         if (stringContains(contentLower, "critical")) {
             submission.severity = "Critical";
+            submission.merits = 100;
         } else if (stringContains(contentLower, "high")) {
             submission.severity = "High";
+            submission.merits = 70;
         } else if (stringContains(contentLower, "medium")) {
             submission.severity = "Medium";
+            submission.merits = 40;
         } else if (stringContains(contentLower, "low")) {
             submission.severity = "Low";
+            submission.merits = 20;
         } else {
             submission.severity = "Unknown";
+            submission.merits = 10;
         }
         
         // Generate a simple submission ID based on content hash
         submission.submissionId = generateSubmissionId(content);
+        submission.verified = true;
+        submission.tokenId = 0;  // This will be set by the registry
         
         return submission;
     }
