@@ -7,8 +7,8 @@ import proverSpec from "./BugBountyEmailProver.json";
 import verifierSpec from "./BugBountyRegistry.json";
 
 // Hardcoded addresses from deployment
-const PROVER_ADDRESS = "0xe7439829bb4bc8aed8ebddef00ff953d0cea2ac1";
-const VERIFIER_ADDRESS = "0x5d8d62f0c91b318026a144c5c73efd82072c2b58";
+const PROVER_ADDRESS = "0x2c40d2823d903a72fe7faa30645e53a88f613fd5";
+const VERIFIER_ADDRESS = "0x72d2151418646427b6ae2988725768c2728bec1d";
 const CHAIN_ID = 11155111;
 
 const EmailUpload = ({ address, isOpen, onClose }) => {
@@ -120,7 +120,7 @@ const EmailUpload = ({ address, isOpen, onClose }) => {
                 proverUrl: 'https://stable-fake-prover.vlayer.xyz',
                 jsonRpcUrl: 'https://ethereum-sepolia-rpc.publicnode.com',
                 privateKey: '0x06144584635a701efc050f7916a45fd94b4be93b961fd85a5dc2b51048b75d87',
-                token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbnZpcm9ubWVudCI6InRlc3QiLCJpYXQiOjE3NDg1MzU5MDQsImV4cCI6MTc4MDE1ODMwNCwic3ViIjoiLzJqc0VWcEtKZDlOcnArK3hjMXJRU3dHWFhQT2tHVFp5aTlZQVZaTTZjM3VlWXdBUndNd2dnRHVqNElsZk1wNFB4Q3ltekZWVzJnaE9LVlpEdGh2MkdqOUE9PSJ9.cYLG3SZhaIGW2TdJJ9KooJKLdqIShqOTai83EW4t-tF2tNADWZGxcUZbeC7RUOBuOBwdIlQoBWVWjh21TR3LJxiLYSNdkKJ8LzxHxlpRyKb6p885TsasGOoN05WVSxUYNR9DJekZSbKQ7x8qsA7DpJI50hUO_qPyMB5rscqzJDJW3VRap-J7PKa8swd02N9xJFMyv1VcAXNETkgpq2p5sX_Uzpp9d0FgHaq--eKlueSBlmIHVYyyjJgci3VOs4BCQVSW0Dac8cF7maNQMMTZNVDjbgA60Eck0M84r35SovW_t28mBoWHLpgOasXDZXtqqySp51Nj5-i-mSilS1iMdWd0UW3kC7orhdw5c3trPfYRZH3B7i9pe37GnTGd9A226igrd4Ib4ViImlwbLQtYzlX-cRd2-nZ9WA4U8_mQgXUNdTb5mM2KSxe4goC45P2dtW2Md9hZj6TZz6wI-3mE3kJbyowmtRhwCODHoA4Aq0dpiDTcfiDAyapoku-eRiSkI4AA5VN6HEXRJ-fYO7GVCiIeV_CgBjmdRrPMHOp4xxbljOtR0EhtfFFt0Nr7u3EhQgR95PWYAa12HvDlVGGoKn3lMao0zzTBt2vkxf9TZD1LRjjkTRWpjzbig5lFDWtA4_lOLTFcS31cKbAbLfrTlkk9KCyhqcbSc-V2_cFjq9Q',
+                token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbnZpcm9ubWVudCI6InRlc3QiLCJpYXQiOjE3NDg3MjY4MjgsImV4cCI6MTc4MDM0OTIyOCwic3ViIjoiVUpwL0FxdmFyNGUxVUEvSVpkVldXTW1NSVBCYW9EaXk3MVRJNmt0VkZNZ1NQQ0V1U0NpeXd2b2lQM0xnQUpkK1JwQ085WW14NTZQNHpwR0U2bVY2OWc9PSJ9.htghAKQumhT5tpeZTQ_pdBrLwTu-8nSll_8D-jSIA0shSQBMKLYn06VJMT_Ww98peTuWGdflqiRkdzqyK9_5aWaOdCbTzXxJcAcb5EGbn-tjsqyEGgDnfRzAF3mmhHnLQQdFFaZ9ISiCFlMzay4yLJUFmuZU03wUta5Tp6u1HHZRZm8RB5JifSfqO-KBt2kzCCeSwJG1Rw9FmtMuboC2ZkxEekDalM9ZjrOdKeJ9L4JougoqLyiA4i6lU065GV1d6DTg76hDfgINYVhD2QlLfRNQkhXWzHlCOSaFoNtsJICuUFr50xB6hpOb5a3GTVqMYThFsNCvK_ByQ9LeUwi5R864FL4qIzUrpV_W4l5EjOgarR4ckNrcy84LT27tFK4DW6Z9RxRTmmkXfUCREv1d2kKAoRlMLBP8eIbki0wNmMW_sbY75_-VUh96Y0WfYulwccNC0eJ__4XCPKlfvRN1mQ4B7v-nPmYkKIZ7Lh6Q3BZI0liqCr3rX0QAJyTEb5_ILAzmIaS2kHKt2NRDjurPprHu9ymCRWp7xOuv5VsYZ1bjn5D79UO1nFIq2BGC5CTE95Gn8YwqtZNqpVmuNtmOQkpF9aN5SXNZYekPB0sJLe_38VtFPJ1DB9K1b3c4djl0IVvklIwPQAVxarWYfZDENIIlJQ0arFmnIEFcu7zyoVE',
                 gasLimit: 10000000
             };
 

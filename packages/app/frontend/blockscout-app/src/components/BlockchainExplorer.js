@@ -7,7 +7,7 @@ import verifierSpec from "./BugBountyRegistry.json";
 import EmailUpload from './EmailUpload';
 
 // Hardcoded addresses
-const VERIFIER_ADDRESS = "0x5d8d62f0c91b318026a144c5c73efd82072c2b58";
+const VERIFIER_ADDRESS = "0x72d2151418646427b6ae2988725768c2728bec1d";
 
 const BountyExplorer = ({ address }) => {
     const [userStats, setUserStats] = useState(null);

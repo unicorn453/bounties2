@@ -40,10 +40,10 @@ const LandingPage = ({ onConnect }) => {
       <div className="relative overflow-hidden bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Join The Bug Bounty Revolution
+            Proof of Hack
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Discover and report bugs, earn rewards, and climb the leaderboard in our decentralized bug bounty platform.
+            Show off your bug bounty wins—just with your emails. Sounds intriguing, right?
           </p>
           <button
             onClick={handleExplore}
@@ -59,18 +59,18 @@ const LandingPage = ({ onConnect }) => {
       {/* Features Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-2xl p-8 text-gray-900 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-            <Shield className="w-12 h-12 text-[#eeaa2a] mb-4" />
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl p-8 text-gray-900 border border-blue-100 shadow-sm hover:shadow-md transition-all hover:scale-[1.02]">
+            <Shield className="w-12 h-12 text-blue-500 mb-4" />
             <h3 className="text-xl font-bold mb-2">Showcase your skills</h3>
             <p className="text-gray-600">Flex your skills with your minted badges.</p>
           </div>
-          <div className="bg-white rounded-2xl p-8 text-gray-900 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-            <Award className="w-12 h-12 text-[#eeaa2a] mb-4" />
+          <div className="bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-2xl p-8 text-gray-900 border border-amber-100 shadow-sm hover:shadow-md transition-all hover:scale-[1.02]">
+            <Award className="w-12 h-12 text-amber-500 mb-4" />
             <h3 className="text-xl font-bold mb-2">Earn Rewards</h3>
             <p className="text-gray-600">Get rewarded for your contributions with our tokenized bounty system.</p>
           </div>
-          <div className="bg-white rounded-2xl p-8 text-gray-900 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-            <Target className="w-12 h-12 text-[#eeaa2a] mb-4" />
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-2xl p-8 text-gray-900 border border-purple-100 shadow-sm hover:shadow-md transition-all hover:scale-[1.02]">
+            <Target className="w-12 h-12 text-purple-500 mb-4" />
             <h3 className="text-xl font-bold mb-2">Verify your bounties</h3>
             <p className="text-gray-600">Verify your findings thro our email zkp partner vlayer.</p>
           </div>
