@@ -166,64 +166,62 @@ const BountyExplorer = ({ address }) => {
         <div className="max-w-4xl mx-auto p-6">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <h1 className="text-2xl font-bold flex items-center gap-2">
-                                <Shield className="w-6 h-6" />
-                                Bug Bounty Explorer
-                            </h1>
-                            <p className="text-blue-100 mt-2">
-                                User: {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'Not Connected'}
-                            </p>
-                        </div>
-                        <button
-                            onClick={() => setIsEmailUploadOpen(true)}
-                            className="flex items-center gap-2 px-4 py-2 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-colors"
-                        >
-                            <Upload className="w-5 h-5" />
-                            <span>Upload Email</span>
-                        </button>
+                <div className="bg-gradient-to-r from-[#5e2f15] to-[#964f23] text-white p-6 rounded-t-lg flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold flex items-center gap-2">
+                            <Shield className="w-6 h-6" />
+                            Bug Bounty Explorer
+                        </h1>
+                        <p className="text-blue-100 mt-2">
+                            User: {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'Not Connected'}
+                        </p>
                     </div>
+                    <button
+                        onClick={() => setIsEmailUploadOpen(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-[#eeaa2a] text-black rounded-lg transition-colors hover:bg-[#d49b25]"
+                    >
+                        <Upload className="w-5 h-5" />
+                        <span>Upload Email</span>
+                    </button>
                 </div>
 
                 {/* Stats Overview */}
                 <div className="p-6 border-b">
                     <h2 className="text-xl font-semibold mb-4">Stats Overview</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-4">
+                        <div className="bg-white border border-[#964f23] rounded-lg p-4">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-green-600 text-sm font-medium">Total Merits</p>
-                                    <p className="text-2xl font-bold text-green-800">
+                                    <p className="text-gray-600 text-sm font-medium">Total Merits</p>
+                                    <p className="text-2xl font-bold text-[#5e2f15]">
                                         {userStats[0].toString()}
                                     </p>
                                 </div>
-                                <Award className="w-8 h-8 text-green-500" />
+                                <Award className="w-8 h-8 text-[#eeaa2a]" />
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-4">
+                        <div className="bg-white border border-[#964f23] rounded-lg p-4">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-blue-600 text-sm font-medium">Total Badges</p>
-                                    <p className="text-2xl font-bold text-blue-800">
+                                    <p className="text-gray-600 text-sm font-medium">Total Badges</p>
+                                    <p className="text-2xl font-bold text-[#5e2f15]">
                                         {userStats[1].toString()}
                                     </p>
                                 </div>
-                                <Shield className="w-8 h-8 text-blue-500" />
+                                <Shield className="w-8 h-8 text-[#eeaa2a]" />
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-4">
+                        <div className="bg-white border border-[#964f23] rounded-lg p-4">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-purple-600 text-sm font-medium">Critical Finds</p>
-                                    <p className="text-2xl font-bold text-purple-800">
+                                    <p className="text-gray-600 text-sm font-medium">Critical Finds</p>
+                                    <p className="text-2xl font-bold text-[#5e2f15]">
                                         {userStats[2].toString()}
                                     </p>
                                 </div>
-                                <AlertTriangle className="w-8 h-8 text-purple-500" />
+                                <AlertTriangle className="w-8 h-8 text-[#eeaa2a]" />
                             </div>
                         </div>
                     </div>
@@ -253,9 +251,9 @@ const BountyExplorer = ({ address }) => {
                 <div className="p-6">
                     <h2 className="text-xl font-semibold mb-4">Bug Bounty Badges</h2>
                     {badges.length === 0 ? (
-                        <div className="text-center py-8 text-gray-500">
-                            <Shield className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                            <p>No badges found for this user.</p>
+                        <div className="text-center py-8 space-y-4">
+                            <Shield className="w-12 h-12 mx-auto mb-4 text-gray-400 opacity-50" />
+                            <p className="text-gray-600 text-lg">No badges found for this user yet. Keep hunting for bugs!</p>
                         </div>
                     ) : (
                         <div className="space-y-4">

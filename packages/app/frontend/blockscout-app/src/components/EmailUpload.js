@@ -120,7 +120,7 @@ const EmailUpload = ({ address, isOpen, onClose }) => {
                 proverUrl: 'https://stable-fake-prover.vlayer.xyz',
                 jsonRpcUrl: 'https://ethereum-sepolia-rpc.publicnode.com',
                 privateKey: '0x06144584635a701efc050f7916a45fd94b4be93b961fd85a5dc2b51048b75d87',
-                token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbnZpcm9ubWVudCI6InRlc3QiLCJpYXQiOjE3NDg1MzU5MDQsImV4cCI6MTc4MDE1ODMwNCwic3ViIjoiLzJqc0VWcEtKZDlOcnAreGMxclFzQUd4UE9rR1RKa3k5YUJKTTZjM3VlWXdBUndNd2dnRHVqNElsZk1wNFB4Q3ltekZWVzJnaE9LVlpEdGh2MkdqOUE9PSJ9.cYLG3SZhaIGW2TdJJ9KooJKLdqIShqOTai83EW4t-tF2tNADWZGxcUZbeC7RUOBuOBwdIlQoBWVWjh21TR3LJxiLYSNdkKJ8LzxHxlpRyKb6p885TsasGOoN05WVSxUYNR9DJekZSbKQ7x8qsA7DpJI50hUO_qPyMB5rscqzJDJW3VRap-J7PKa8swd02N9xJFMyv1VcAXNETkgpq2p5sX_Uzpp9d0FgHaq--eKlueSBlmIHVYyyjJgci3VOs4BCQVSW0Dac8cF7maNQMMTZNVDjbgA60Eck0M84r35SovW_t28mBoWHLpgOasXDZXtqqySp51Nj5-i-mSilS1iMdWd0UW3kC7orhdw5c3trPfYRZH3B7i9pe37GnTGd9A226igrd4Ib4ViImlwbLQtYzlX-cRd2-nZ9WA4U8_mQgXUNdTb5mM2KSxe4goC45P2dtW2Md9hZj6TZz6wI-3mE3kJbyowmtRhwCODHoA4Aq0dpiDTcfiDAyapoku-eRiSkI4AA5VN6HEXRJ-fYO7GVCiIeV_CgBjmdRrPMHOp4xxbljOtR0EhtfFFt0Nr7u3EhQgR95PWYAa12HvDlVGGoKn3lMao0zzTBt2vkxf9TZD1LRjjkTRWpjzbig5lFDWtA4_lOLTFcS31cKbAbLfrTlkk9KCyhqcbSc-V2_cFjq9Q',
+                token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbnZpcm9ubWVudCI6InRlc3QiLCJpYXQiOjE3NDg1MzU5MDQsImV4cCI6MTc4MDE1ODMwNCwic3ViIjoiLzJqc0VWcEtKZDlOcnArK3hjMXJRU3dHWFhQT2tHVFp5aTlZQVZaTTZjM3VlWXdBUndNd2dnRHVqNElsZk1wNFB4Q3ltekZWVzJnaE9LVlpEdGh2MkdqOUE9PSJ9.cYLG3SZhaIGW2TdJJ9KooJKLdqIShqOTai83EW4t-tF2tNADWZGxcUZbeC7RUOBuOBwdIlQoBWVWjh21TR3LJxiLYSNdkKJ8LzxHxlpRyKb6p885TsasGOoN05WVSxUYNR9DJekZSbKQ7x8qsA7DpJI50hUO_qPyMB5rscqzJDJW3VRap-J7PKa8swd02N9xJFMyv1VcAXNETkgpq2p5sX_Uzpp9d0FgHaq--eKlueSBlmIHVYyyjJgci3VOs4BCQVSW0Dac8cF7maNQMMTZNVDjbgA60Eck0M84r35SovW_t28mBoWHLpgOasXDZXtqqySp51Nj5-i-mSilS1iMdWd0UW3kC7orhdw5c3trPfYRZH3B7i9pe37GnTGd9A226igrd4Ib4ViImlwbLQtYzlX-cRd2-nZ9WA4U8_mQgXUNdTb5mM2KSxe4goC45P2dtW2Md9hZj6TZz6wI-3mE3kJbyowmtRhwCODHoA4Aq0dpiDTcfiDAyapoku-eRiSkI4AA5VN6HEXRJ-fYO7GVCiIeV_CgBjmdRrPMHOp4xxbljOtR0EhtfFFt0Nr7u3EhQgR95PWYAa12HvDlVGGoKn3lMao0zzTBt2vkxf9TZD1LRjjkTRWpjzbig5lFDWtA4_lOLTFcS31cKbAbLfrTlkk9KCyhqcbSc-V2_cFjq9Q',
                 gasLimit: 10000000
             };
 
@@ -262,7 +262,7 @@ const EmailUpload = ({ address, isOpen, onClose }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-t-lg flex justify-between items-center">
+                <div className="bg-gradient-to-r from-[#5e2f15] to-[#964f23] text-white p-6 rounded-t-lg flex justify-between items-center">
                     <h2 className="text-xl font-bold flex items-center gap-2">
                         <Shield className="w-5 h-5" />
                         Upload Bug Bounty Email
@@ -287,7 +287,7 @@ const EmailUpload = ({ address, isOpen, onClose }) => {
                                 <div className="flex text-sm text-gray-600">
                                     <label
                                         htmlFor="file-upload"
-                                        className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                                        className="relative cursor-pointer bg-white rounded-md font-medium text-[#eeaa2a] hover:text-[#d49b25] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-[#eeaa2a]"
                                     >
                                         <span>Upload a file</span>
                                         <input
@@ -348,14 +348,14 @@ const EmailUpload = ({ address, isOpen, onClose }) => {
                     <div className="flex justify-end gap-4">
                         <button
                             onClick={onClose}
-                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#eeaa2a]"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={mintBadge}
                             disabled={!Object.keys(headers).length || !body}
-                            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-4 py-2 text-sm font-medium text-white bg-[#eeaa2a] border border-transparent rounded-md hover:bg-[#d49b25] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#eeaa2a] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             Mint Badge
                         </button>

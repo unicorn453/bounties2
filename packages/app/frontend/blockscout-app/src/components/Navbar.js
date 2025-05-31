@@ -41,7 +41,8 @@ const Navbar = ({ connectedAddress, onConnect }) => {
             className="flex items-center cursor-pointer"
             onClick={() => navigate('/')}
           >
-            <span className="text-2xl font-bold text-gray-900">Bounties</span>
+            <img src="/logoo.png" alt="Bounties Logo" className="h-10 w-auto mr-2" />
+            <span className="text-2xl font-bold text-gray-900 uppercase">BOUNTIES</span>
           </div>
 
           {/* Wallet Connection */}
