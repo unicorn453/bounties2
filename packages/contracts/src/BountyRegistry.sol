@@ -129,7 +129,7 @@ contract BugBountyRegistry is Verifier, ERC721 {
         
         string memory imageUrl = platformImageUrls[badge.platform];
         if (bytes(imageUrl).length == 0) {
-            imageUrl = "https://example.com/default-badge.png";
+            imageUrl = "https://pipedream.com/s.v0/app_JQh7AW/logo/orig";
         }
         
         // Break down the JSON construction into smaller parts
