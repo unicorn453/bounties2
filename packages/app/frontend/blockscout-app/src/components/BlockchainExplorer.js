@@ -156,6 +156,11 @@ const BountyExplorer = ({ address }) => {
                 throw new Error('Badge card not found');
             }
 
+            // Temporarily show full submission ID
+            const submissionIdElement = badgeCard.querySelector('[data-submission-id]');
+            const originalText = submissionIdElement.textContent;
+            submissionIdElement.textContent = `Submission ID: #${badge.submissionId.toString()}`;
+
             // Generate PNG using html-to-image
             const dataUrl = await toPng(badgeCard, {
                 backgroundColor: null,
@@ -165,6 +170,9 @@ const BountyExplorer = ({ address }) => {
                     transformOrigin: 'top left'
                 }
             });
+
+            // Restore original text
+            submissionIdElement.textContent = originalText;
 
             return dataUrl;
         } catch (error) {
@@ -388,7 +396,7 @@ const BountyExplorer = ({ address }) => {
                                                 <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm opacity-80 mt-1">
                                                     <span>Token ID: #{badge.tokenId.toString()}</span>
                                                     <span className="group relative inline-block">
-                                                        <span className="cursor-help">Submission ID: #{badge.submissionId.toString().slice(0, 4)}...</span>
+                                                        <span className="cursor-help" data-submission-id>Submission ID: #{badge.submissionId.toString().slice(0, 4)}...</span>
                                                         <div className="absolute left-0 -top-2 -translate-y-full px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
                                                             Submission ID: #{badge.submissionId.toString()}
                                                             <div className="absolute left-4 -bottom-1 w-2 h-2 bg-gray-900 rotate-45"></div>
