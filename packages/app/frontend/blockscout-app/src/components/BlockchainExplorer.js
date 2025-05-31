@@ -163,37 +163,39 @@ const BountyExplorer = ({ address }) => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
+        <div className="max-w-4xl mx-auto p-4 sm:p-6">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-[#5e2f15] to-[#964f23] text-white p-6 rounded-t-lg flex justify-between items-center">
-                    <div>
-                        <h1 className="text-2xl font-bold flex items-center gap-2">
-                            <Shield className="w-6 h-6" />
-                            Bug Bounty Explorer
-                        </h1>
-                        <p className="text-blue-100 mt-2">
-                            User: {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'Not Connected'}
-                        </p>
+                <div className="bg-gradient-to-r from-[#5e2f15] to-[#964f23] text-white p-4 sm:p-6 rounded-t-lg">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                                <Shield className="w-6 h-6" />
+                                Bug Bounty Explorer
+                            </h1>
+                            <p className="text-blue-100 mt-2 text-sm sm:text-base">
+                                User: {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'Not Connected'}
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => setIsEmailUploadOpen(true)}
+                            className="flex items-center justify-center gap-2 px-4 py-2 bg-[#eeaa2a] text-black rounded-lg transition-colors hover:bg-[#d49b25] w-full sm:w-auto"
+                        >
+                            <Upload className="w-5 h-5" />
+                            <span>Upload Email</span>
+                        </button>
                     </div>
-                    <button
-                        onClick={() => setIsEmailUploadOpen(true)}
-                        className="flex items-center gap-2 px-4 py-2 bg-[#eeaa2a] text-black rounded-lg transition-colors hover:bg-[#d49b25]"
-                    >
-                        <Upload className="w-5 h-5" />
-                        <span>Upload Email</span>
-                    </button>
                 </div>
 
                 {/* Stats Overview */}
-                <div className="p-6 border-b">
-                    <h2 className="text-xl font-semibold mb-4">Stats Overview</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="p-4 sm:p-6 border-b">
+                    <h2 className="text-lg sm:text-xl font-semibold mb-4">Stats Overview</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                         <div className="bg-white border border-[#964f23] rounded-lg p-4">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-gray-600 text-sm font-medium">Total Merits</p>
-                                    <p className="text-2xl font-bold text-[#5e2f15]">
+                                    <p className="text-xl sm:text-2xl font-bold text-[#5e2f15]">
                                         {userStats[0].toString()}
                                     </p>
                                 </div>
@@ -205,7 +207,7 @@ const BountyExplorer = ({ address }) => {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-gray-600 text-sm font-medium">Total Badges</p>
-                                    <p className="text-2xl font-bold text-[#5e2f15]">
+                                    <p className="text-xl sm:text-2xl font-bold text-[#5e2f15]">
                                         {userStats[1].toString()}
                                     </p>
                                 </div>
@@ -217,7 +219,7 @@ const BountyExplorer = ({ address }) => {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-gray-600 text-sm font-medium">Critical Finds</p>
-                                    <p className="text-2xl font-bold text-[#5e2f15]">
+                                    <p className="text-xl sm:text-2xl font-bold text-[#5e2f15]">
                                         {userStats[2].toString()}
                                     </p>
                                 </div>
@@ -227,7 +229,7 @@ const BountyExplorer = ({ address }) => {
                     </div>
 
                     {/* Severity Breakdown */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
                         <div className="flex items-center gap-2 p-2 bg-red-50 rounded">
                             <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                             <span>Critical: {userStats[2].toString()}</span>
@@ -248,12 +250,12 @@ const BountyExplorer = ({ address }) => {
                 </div>
 
                 {/* Badges */}
-                <div className="p-6">
-                    <h2 className="text-xl font-semibold mb-4">Bug Bounty Badges</h2>
+                <div className="p-4 sm:p-6">
+                    <h2 className="text-lg sm:text-xl font-semibold mb-4">Bug Bounty Badges</h2>
                     {badges.length === 0 ? (
                         <div className="text-center py-8 space-y-4">
                             <Shield className="w-12 h-12 mx-auto mb-4 text-gray-400 opacity-50" />
-                            <p className="text-gray-600 text-lg">No badges found for this user yet. Keep hunting for bugs!</p>
+                            <p className="text-gray-600 text-base sm:text-lg">No badges found for this user yet. Keep hunting for bugs!</p>
                         </div>
                     ) : (
                         <div className="space-y-4">
@@ -262,28 +264,28 @@ const BountyExplorer = ({ address }) => {
                                     key={badge.tokenId.toString()}
                                     className={`border-2 rounded-lg p-4 transition-all hover:shadow-md ${getSeverityColor(badge.severity)}`}
                                 >
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                        <div className="flex items-start sm:items-center gap-3">
                                             {getSeverityIcon(badge.severity)}
                                             <div>
-                                                <h3 className="font-semibold text-lg">
+                                                <h3 className="font-semibold text-base sm:text-lg">
                                                     {badge.platform}
                                                 </h3>
-                                                <div className="flex items-center gap-4 text-sm opacity-80">
+                                                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm opacity-80 mt-1">
                                                     <span>Token ID: #{badge.tokenId.toString()}</span>
                                                     <span>Merits: {badge.merits.toString()}</span>
                                                     <span>Date: {new Date(Number(badge.timestamp) * 1000).toLocaleString()}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${getSeverityColor(badge.severity)}`}>
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            <span className={`px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getSeverityColor(badge.severity)}`}>
                                                 {badge.severity}
                                             </span>
                                             {badge.verified && (
                                                 <div className="flex items-center gap-1 text-green-600">
                                                     <Shield className="w-4 h-4" />
-                                                    <span className="text-sm font-medium">Verified</span>
+                                                    <span className="text-xs sm:text-sm font-medium">Verified</span>
                                                 </div>
                                             )}
                                         </div>
@@ -295,7 +297,7 @@ const BountyExplorer = ({ address }) => {
                 </div>
 
                 {/* Contract Info */}
-                <div className="bg-gray-50 p-4 text-sm text-gray-600">
+                <div className="bg-gray-50 p-4 text-xs sm:text-sm text-gray-600">
                     <p>Contract: {VERIFIER_ADDRESS}</p>
                 </div>
             </div>
