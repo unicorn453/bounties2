@@ -51,13 +51,13 @@ const BugBountyGlobalExplorer = () => {
     const getPlatformColor = (platform) => {
         switch (platform.toLowerCase()) {
             case 'hackerone':
-                return 'bg-purple-100 text-purple-800';
+                return 'bg-[#eeaa2a] text-[#5e2f15]';
             case 'bugcrowd':
-                return 'bg-green-100 text-green-800';
+                return 'bg-[#964f23] text-white';
             case 'immunefi':
-                return 'bg-blue-100 text-blue-800';
+                return 'bg-[#5e2f15] text-white';
             case 'intigriti':
-                return 'bg-indigo-100 text-indigo-800';
+                return 'bg-[#d49b25] text-[#5e2f15]';
             default:
                 return 'bg-gray-100 text-gray-800';
         }
@@ -204,110 +204,108 @@ const BugBountyGlobalExplorer = () => {
     }
 
     return (
-        <div className="max-w-6xl mx-auto p-6 space-y-6">
-            {/* Header */}
-            <div className="text-center space-y-2">
-                <div className="flex items-center justify-center space-x-2">
-                    <Globe className="w-8 h-8 text-blue-600" />
-                    <h1 className="text-3xl font-bold text-gray-800">Global Bug Bounty Explorer</h1>
-                </div>
-                <p className="text-gray-600">Real-time view of the latest verified bug bounty submissions</p>
-            </div>
-
+        <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
             {/* Global Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-4 sm:p-6 text-white">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-blue-100 text-sm font-medium">Total Hunters</p>
-                            <p className="text-3xl font-bold">{globalStats.totalHunters}</p>
+                            <p className="text-2xl sm:text-3xl font-bold">{globalStats.totalHunters}</p>
                         </div>
-                        <Shield className="w-10 h-10 text-blue-200" />
+                        <Shield className="w-8 h-8 sm:w-10 sm:h-10 text-blue-200" />
                     </div>
                 </div>
 
-                <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white">
+                <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-4 sm:p-6 text-white">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-green-100 text-sm font-medium">Total Submissions</p>
-                            <p className="text-3xl font-bold">{globalStats.totalSubmissions}</p>
+                            <p className="text-2xl sm:text-3xl font-bold">{globalStats.totalSubmissions}</p>
                         </div>
-                        <Award className="w-10 h-10 text-green-200" />
+                        <Award className="w-8 h-8 sm:w-10 sm:h-10 text-green-200" />
                     </div>
                 </div>
 
-                <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-6 text-white">
+                <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-4 sm:p-6 text-white">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-purple-100 text-sm font-medium">Total Merits</p>
-                            <p className="text-3xl font-bold">{globalStats.totalMerits}</p>
+                            <p className="text-2xl sm:text-3xl font-bold">{globalStats.totalMerits}</p>
                         </div>
-                        <Target className="w-10 h-10 text-purple-200" />
+                        <Target className="w-8 h-8 sm:w-10 sm:h-10 text-purple-200" />
                     </div>
                 </div>
             </div>
 
             {/* Recent Activity */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                        <Activity className="w-6 h-6 text-gray-600" />
-                        <h2 className="text-2xl font-bold text-gray-800">Latest Bug Bounty Badges</h2>
+                <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-4 sm:px-6 py-3 sm:py-4 border-b">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex items-center space-x-2">
+                            <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
+                            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Latest Bug Bounty Badges</h2>
+                        </div>
+                        <button
+                            onClick={loadGlobalData}
+                            disabled={loading}
+                            className="flex items-center justify-center space-x-2 px-4 py-2 bg-[#eeaa2a] hover:bg-[#d49b25] disabled:bg-[#d49b25]/50 text-black text-sm font-medium rounded-lg transition-colors w-full sm:w-auto"
+                        >
+                            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                            <span>Refresh</span>
+                        </button>
                     </div>
-                    <button
-                        onClick={loadGlobalData}
-                        disabled={loading}
-                        className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium rounded-lg transition-colors"
-                    >
-                        <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                        <span>Refresh</span>
-                    </button>
                 </div>
 
                 {recentBadges.length === 0 ? (
-                    <div className="p-12 text-center">
-                        <Eye className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold text-gray-500 mb-2">No badges found</h3>
-                        <p className="text-gray-400">No bug bounty submissions have been verified yet.</p>
+                    <div className="p-8 sm:p-12 text-center">
+                        <Eye className="w-12 h-12 sm:w-16 sm:h-16 text-gray-300 mx-auto mb-4" />
+                        <h3 className="text-lg sm:text-xl font-semibold text-gray-500 mb-2">No badges found</h3>
+                        <p className="text-sm sm:text-base text-gray-400">No bug bounty submissions have been verified yet.</p>
                     </div>
                 ) : (
                     <div className="divide-y divide-gray-100">
                         {recentBadges.map((badge, index) => (
-                            <div key={badge.tokenId} className="p-6 hover:bg-gray-50 transition-colors">
-                                <div className="flex items-start justify-between">
-                                    <div className="flex items-start space-x-4">
+                            <div key={badge.tokenId} className="p-4 sm:p-6 hover:bg-gray-50 transition-colors">
+                                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                                    <div className="flex items-start space-x-3 sm:space-x-4">
                                         <div className="flex-shrink-0">
-                                            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#5e2f15] rounded-lg flex items-center justify-center text-white font-bold text-base sm:text-lg">
                                                 #{badge.tokenId}
                                             </div>
                                         </div>
 
                                         <div className="flex-1 min-w-0">
-                                            <div className="flex items-center space-x-3 mb-2">
-                                                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getPlatformColor(badge.platform)}`}>
+                                            <div className="flex flex-wrap items-center gap-2 mb-2">
+                                                <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getPlatformColor(badge.platform)}`}>
                                                     {badge.platform}
                                                 </span>
-                                                <div className={`flex items-center space-x-1 px-3 py-1 rounded-full text-sm font-medium border ${getSeverityColor(badge.severity)}`}>
+                                                <div className={`flex items-center space-x-1 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium border ${getSeverityColor(badge.severity)}`}>
                                                     {getSeverityIcon(badge.severity)}
                                                     <span>{badge.severity}</span>
                                                 </div>
+                                                {badge.verified && (
+                                                    <span className="px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-green-100 text-green-800 border border-green-200">
+                                                        Verified
+                                                    </span>
+                                                )}
                                             </div>
 
-                                            <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+                                            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600 mb-2">
                                                 <div className="flex items-center space-x-1">
-                                                    <Shield className="w-4 h-4" />
+                                                    <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
                                                     <span>Hunter: </span>
-                                                    <code className="bg-gray-100 px-2 py-1 rounded text-xs font-mono">
+                                                    <code className="bg-gray-100 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-xs font-mono">
                                                         {formatAddress(badge.user)}
                                                     </code>
                                                 </div>
                                                 <div className="flex items-center space-x-1">
-                                                    <Clock className="w-4 h-4" />
+                                                    <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
                                                     <span>{formatTimestamp(badge.timestamp)}</span>
                                                 </div>
                                             </div>
 
-                                            <div className="text-xs text-gray-500 font-mono">
+                                            <div className="text-xs text-gray-500 font-mono break-all">
                                                 Submission ID: {badge.submissionId.length > 50
                                                     ? `${badge.submissionId.slice(0, 50)}...`
                                                     : badge.submissionId
@@ -316,35 +314,35 @@ const BugBountyGlobalExplorer = () => {
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center space-x-4">
+                                    <div className="flex items-center justify-between sm:justify-end gap-4">
                                         <div className="text-right">
-                                            <div className="text-2xl font-bold text-gray-800">
+                                            <div className="text-xl sm:text-2xl font-bold text-gray-800">
                                                 {badge.merits}
                                             </div>
-                                            <div className="text-sm text-gray-500">merits</div>
+                                            <div className="text-xs sm:text-sm text-gray-500">merits</div>
                                         </div>
 
                                         <a
                                             href={`https://sepolia.etherscan.io/address/${badge.user}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+                                            className="p-1.5 sm:p-2 text-gray-400 hover:text-blue-600 transition-colors"
                                             title="View Hunter Profile on Etherscan"
                                         >
-                                            <ExternalLink className="w-5 h-5" />
+                                            <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
                                         </a>
                                     </div>
                                 </div>
 
                                 {/* Progress bar showing relative merit value */}
-                                <div className="mt-4">
+                                <div className="mt-3 sm:mt-4">
                                     <div className="flex justify-between text-xs text-gray-500 mb-1">
                                         <span>Merit Score</span>
                                         <span>{badge.merits}/100</span>
                                     </div>
-                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                    <div className="w-full bg-gray-200 rounded-full h-1.5 sm:h-2">
                                         <div
-                                            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                                            className="bg-gradient-to-r from-[#5e2f15] to-[#eeaa2a] h-1.5 sm:h-2 rounded-full transition-all duration-300"
                                             style={{ width: `${Math.min(badge.merits, 100)}%` }}
                                         ></div>
                                     </div>
@@ -357,9 +355,9 @@ const BugBountyGlobalExplorer = () => {
 
             {/* Live indicator */}
             <div className="text-center">
-                <div className="inline-flex items-center space-x-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm font-medium text-green-700">Live data from Sepolia testnet</span>
+                <div className="inline-flex items-center space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-green-50 border border-green-200 rounded-full">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-xs sm:text-sm font-medium text-green-700">Live data from Sepolia testnet</span>
                 </div>
             </div>
         </div>
