@@ -10,7 +10,40 @@ export const useBugBounty = (address) => {
 
   const { ethClient } = initializeConfig();
 
+  useEffect(() => {
+    if (!ethClient) {
+      setError('Failed to initialize Ethereum client. Please check your environment variables.');
+      return;
+    }
+
+    const fetchData = async () => {
+      if (!address) return;
+      
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const [stats, badgeData] = await Promise.all([
+          fetchUserStats(address),
+          fetchUserBadges(address)
+        ]);
+        
+        setUserStats(stats);
+        setBadges(badgeData);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [address, ethClient]);
+
   const fetchUserStats = async (userAddress) => {
+    if (!ethClient) throw new Error('Ethereum client not initialized');
+    
     try {
       const stats = await ethClient.readContract({
         address: VERIFIER_ADDRESS,
@@ -34,6 +67,8 @@ export const useBugBounty = (address) => {
   };
 
   const fetchUserBadges = async (userAddress) => {
+    if (!ethClient) throw new Error('Ethereum client not initialized');
+    
     try {
       const badgeData = await ethClient.readContract({
         address: VERIFIER_ADDRESS,
@@ -106,33 +141,6 @@ export const useBugBounty = (address) => {
       throw err;
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!address) return;
-
-      setLoading(true);
-      setError(null);
-
-      try {
-        const [stats, badgeData, contract] = await Promise.all([
-          fetchUserStats(address),
-          fetchUserBadges(address),
-          fetchContractStats(),
-        ]);
-
-        setUserStats(stats);
-        setBadges(badgeData);
-        setContractStats(contract);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [address]);
 
   return {
     loading,

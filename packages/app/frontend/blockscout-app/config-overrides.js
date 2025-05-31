@@ -1,4 +1,16 @@
 const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+// Load environment variables from .env.local file
+const env = dotenv.config({ path: '.env.local' }).parsed || {};
+
+// Create a new object with all environment variables
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
+
+console.log('Environment variables being injected:', envKeys);
 
 module.exports = function override(config) {
   const fallback = config.resolve.fallback || {};
@@ -24,6 +36,7 @@ module.exports = function override(config) {
       Buffer: ["buffer", "Buffer"]
     }),
     new webpack.DefinePlugin({
+      ...envKeys,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     })
   ]);

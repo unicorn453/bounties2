@@ -36,7 +36,7 @@ contract BugBountyTest is Test {
         vm.startPrank(user);
 
         // Call the prover
-        (Proof memory proof, BugBountySubmission memory submission) = prover.prove(emailContent, emailHeaders);
+        (Proof memory proof, BugBountySubmission memory submission) = prover.prove(emailContent, emailHeaders, user);
 
         // Verify submission details before registry submission
         assertEq(submission.reporter, user, "Reporter should be the user");
@@ -90,7 +90,7 @@ contract BugBountyTest is Test {
             "DKIM-Signature: v=1; a=rsa-sha256; d=hackerone.com; s=selector; c=relaxed/relaxed; t=1234567890; bh=base64hash; b=signature\n"
             "Authentication-Results: spf=pass smtp.mailfrom=security@hackerone.com\n";
 
-        (Proof memory proof1, BugBountySubmission memory submission1) = prover.prove(emailContent1, emailHeaders1);
+        (Proof memory proof1, BugBountySubmission memory submission1) = prover.prove(emailContent1, emailHeaders1, user);
         registry.submitBugBountyProof(
             proof1,
             submission1.platform,
@@ -105,7 +105,7 @@ contract BugBountyTest is Test {
             "DKIM-Signature: v=1; a=rsa-sha256; d=bugcrowd.com; s=selector; c=relaxed/relaxed; t=1234567890; bh=base64hash; b=signature\n"
             "Authentication-Results: spf=pass smtp.mailfrom=security@bugcrowd.com\n";
 
-        (Proof memory proof2, BugBountySubmission memory submission2) = prover.prove(emailContent2, emailHeaders2);
+        (Proof memory proof2, BugBountySubmission memory submission2) = prover.prove(emailContent2, emailHeaders2, user);
         registry.submitBugBountyProof(
             proof2,
             submission2.platform,
@@ -154,7 +154,7 @@ contract BugBountyTest is Test {
         vm.startPrank(user);
 
         // First submission
-        (Proof memory proof, BugBountySubmission memory submission) = prover.prove(emailContent, emailHeaders);
+        (Proof memory proof, BugBountySubmission memory submission) = prover.prove(emailContent, emailHeaders, user);
         registry.submitBugBountyProof(
             proof,
             submission.platform,
@@ -186,7 +186,7 @@ contract BugBountyTest is Test {
 
         // Should revert with "Not a valid bug bounty email"
         vm.expectRevert("Not a valid bug bounty email");
-        prover.prove(emailContent, emailHeaders);
+        prover.prove(emailContent, emailHeaders, user);
 
         vm.stopPrank();
     }
@@ -203,7 +203,7 @@ contract BugBountyTest is Test {
 
         // Should revert with "Unsupported platform domain"
         vm.expectRevert("Unsupported platform domain");
-        prover.prove(emailContent, emailHeaders);
+        prover.prove(emailContent, emailHeaders, user);
 
         vm.stopPrank();
     }
