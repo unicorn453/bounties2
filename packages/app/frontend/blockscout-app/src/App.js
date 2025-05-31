@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { NotificationProvider } from "@blockscout/app-sdk";
+import { NotificationProvider, TransactionPopupProvider } from "@blockscout/app-sdk";
 import { ethers } from 'ethers';
-import BountyExplorer from './components/BlockchainExplorer';
+import Explorer from './components/Explorer';
 import LandingPage from './components/LandingPage';
 import Navbar from './components/Navbar';
 
@@ -56,26 +56,24 @@ function App() {
 
   return (
     <NotificationProvider>
-      <Router>
-        <div className="min-h-screen bg-gray-50">
-          <Navbar connectedAddress={connectedAddress} onConnect={handleConnect} />
-          <Routes>
-            <Route path="/" element={<LandingPage onConnect={handleConnect} />} />
-            <Route
-              path="/explorer"
-              element={
-                <ProtectedRoute>
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <div className="bg-white shadow rounded-lg p-6">
-                      <BountyExplorer address={connectedAddress} provider={provider} />
-                    </div>
-                  </div>
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </div>
-      </Router>
+      <TransactionPopupProvider>
+        <Router>
+          <div className="min-h-screen bg-gray-50">
+            <Navbar connectedAddress={connectedAddress} onConnect={handleConnect} />
+            <Routes>
+              <Route path="/" element={<LandingPage onConnect={handleConnect} />} />
+              <Route
+                path="/explorer"
+                element={
+                  <ProtectedRoute>
+                    <Explorer address={connectedAddress} provider={provider} />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </div>
+        </Router>
+      </TransactionPopupProvider>
     </NotificationProvider>
   );
 }

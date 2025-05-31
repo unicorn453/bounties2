@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ethers } from 'ethers';
+import { LogOut } from 'lucide-react';
 
 const Navbar = ({ connectedAddress, onConnect }) => {
   const navigate = useNavigate();
@@ -32,8 +33,17 @@ const Navbar = ({ connectedAddress, onConnect }) => {
     }
   };
 
+  const handleLogout = () => {
+    // Clear the connected address from localStorage
+    localStorage.removeItem('connectedAddress');
+    // Call onConnect with null values to clear the state
+    onConnect('', null);
+    // Navigate to home page
+    navigate('/');
+  };
+
   return (
-    <nav className="w-full bg-white shadow-md">
+    <nav className="w-full bg-gradient-to-r from-[#5e2f15] to-[#964f23] shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -42,7 +52,7 @@ const Navbar = ({ connectedAddress, onConnect }) => {
             onClick={() => navigate('/')}
           >
             <img src="/logoo.png" alt="Bounties Logo" className="h-10 w-auto mr-2" />
-            <span className="text-2xl font-bold text-gray-900 uppercase">BOUNTIES</span>
+            <span className="text-2xl font-bold text-white uppercase">BOUNTIES</span>
           </div>
 
           {/* Wallet Connection */}
@@ -51,22 +61,29 @@ const Navbar = ({ connectedAddress, onConnect }) => {
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => navigate('/explorer')}
-                  className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-white hover:text-[#eeaa2a] px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   Explorer
                 </button>
-                <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
+                <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-white">
                     {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
                   </span>
                 </div>
+                <button
+                  onClick={handleLogout}
+                  className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+                  title="Disconnect Wallet"
+                >
+                  <LogOut className="w-5 h-5 text-white" />
+                </button>
               </div>
             ) : (
               <button
                 onClick={connectWallet}
                 disabled={isConnecting}
-                className="bg-[rgba(255,159.93,87.23,0.94)] px-4 py-2 rounded-2xl text-black text-sm font-medium hover:bg-[rgba(255,159.93,87.23,0.8)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="bg-[#eeaa2a] px-4 py-2 rounded-full text-black text-sm font-medium hover:bg-[#d49b25] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {isConnecting ? 'Connecting...' : 'Connect Wallet'}
               </button>
