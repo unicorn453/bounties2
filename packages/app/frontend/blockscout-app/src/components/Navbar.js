@@ -8,6 +8,26 @@ const Navbar = ({ connectedAddress, onConnect }) => {
   const [isConnecting, setIsConnecting] = React.useState(false);
   const [error, setError] = React.useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [balance, setBalance] = React.useState('');
+
+  const fetchBalance = async (address) => {
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const balance = await provider.getBalance(address);
+      setBalance(ethers.formatEther(balance));
+    } catch (err) {
+      console.error('Error fetching balance:', err);
+    }
+  };
+
+  React.useEffect(() => {
+    if (connectedAddress) {
+      fetchBalance(connectedAddress);
+      // Set up balance update interval
+      const interval = setInterval(() => fetchBalance(connectedAddress), 30000); // Update every 30 seconds
+      return () => clearInterval(interval);
+    }
+  }, [connectedAddress]);
 
   const connectWallet = async () => {
     try {
@@ -37,6 +57,7 @@ const Navbar = ({ connectedAddress, onConnect }) => {
   const handleLogout = () => {
     localStorage.removeItem('connectedAddress');
     onConnect('', null);
+    setBalance('');
     navigate('/');
     setIsMobileMenuOpen(false);
   };
@@ -73,6 +94,11 @@ const Navbar = ({ connectedAddress, onConnect }) => {
                   <span className="text-sm font-medium text-white">
                     {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
                   </span>
+                  {balance && (
+                    <span className="text-sm font-medium text-[#eeaa2a] ml-2">
+                      {parseFloat(balance).toFixed(4)} ETH
+                    </span>
+                  )}
                 </div>
                 <button
                   onClick={handleLogout}
@@ -130,6 +156,11 @@ const Navbar = ({ connectedAddress, onConnect }) => {
                     <span className="text-sm font-medium text-white">
                       {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
                     </span>
+                    {balance && (
+                      <span className="text-sm font-medium text-[#eeaa2a] ml-2">
+                        {parseFloat(balance).toFixed(4)} ETH
+                      </span>
+                    )}
                   </div>
                 </div>
                 <button
