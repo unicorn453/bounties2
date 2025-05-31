@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
-import { Shield, Award, Target, AlertTriangle, Zap, Info, Upload } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Shield, Award, Target, AlertTriangle, Zap, Info, Upload, Share2, Twitter, Linkedin, Link, Download } from 'lucide-react';
 import {
     createContext,
 } from "@vlayer/sdk/config";
 import verifierSpec from "./BugBountyRegistry.json";
 import EmailUpload from './EmailUpload';
+import { toPng } from 'html-to-image';
 
 // Hardcoded addresses
 const VERIFIER_ADDRESS = "0x72d2151418646427b6ae2988725768c2728bec1d";
@@ -15,6 +16,19 @@ const BountyExplorer = ({ address }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isEmailUploadOpen, setIsEmailUploadOpen] = useState(false);
+    const [shareUrl, setShareUrl] = useState('');
+    const [currentBadge, setCurrentBadge] = useState(null);
+    const [isGeneratingShareCard, setIsGeneratingShareCard] = useState(false);
+    const [logoLoaded, setLogoLoaded] = useState(false);
+    const shareCardRef = useRef(null);
+
+    // Preload logo image
+    useEffect(() => {
+        const img = new Image();
+        img.src = "/logoo.png";
+        img.onload = () => setLogoLoaded(true);
+        img.onerror = () => console.error("Failed to load logo");
+    }, []);
 
     const loadBountyData = async (ethClient) => {
         if (!address) {
@@ -71,10 +85,10 @@ const BountyExplorer = ({ address }) => {
             eventName: 'BadgeAwarded',
             onLogs: (logs) => {
                 // Check if the event is for the current user
-                const relevantLogs = logs.filter(log => 
+                const relevantLogs = logs.filter(log =>
                     log.args.user.toLowerCase() === address.toLowerCase()
                 );
-                
+
                 if (relevantLogs.length > 0) {
                     // Reload data when a new badge is awarded to the current user
                     loadBountyData(ethClient);
@@ -87,6 +101,11 @@ const BountyExplorer = ({ address }) => {
             unsubscribe();
         };
     }, [address]);
+
+    useEffect(() => {
+        // Set the base URL for sharing
+        setShareUrl(window.location.origin);
+    }, []);
 
     const getSeverityIcon = (severity) => {
         switch (severity.toLowerCase()) {
@@ -116,6 +135,88 @@ const BountyExplorer = ({ address }) => {
             default:
                 return 'bg-gray-100 border-gray-300 text-gray-800';
         }
+    };
+
+    const getShareText = (badge) => {
+        return `I earned a ${badge.severity} severity bug bounty badge on ${badge.platform}! Check out my achievement on Bounties.`;
+    };
+
+    const generateShareCard = async (badge) => {
+        if (!logoLoaded) {
+            alert("Please wait for resources to load");
+            return null;
+        }
+
+        setCurrentBadge(badge);
+        setIsGeneratingShareCard(true);
+        try {
+            // Find the badge card element
+            const badgeCard = document.querySelector(`[data-badge-id="${badge.tokenId}"]`);
+            if (!badgeCard) {
+                throw new Error('Badge card not found');
+            }
+
+            // Generate PNG using html-to-image
+            const dataUrl = await toPng(badgeCard, {
+                backgroundColor: null,
+                pixelRatio: 2,
+                style: {
+                    transform: 'scale(1)',
+                    transformOrigin: 'top left'
+                }
+            });
+
+            return dataUrl;
+        } catch (error) {
+            console.error('Error generating share card:', error);
+            return null;
+        } finally {
+            setIsGeneratingShareCard(false);
+        }
+    };
+
+    const downloadShareCard = async (badge) => {
+        if (isGeneratingShareCard) return;
+
+        setIsGeneratingShareCard(true);
+        const imageUrl = await generateShareCard(badge);
+
+        if (imageUrl) {
+            const link = document.createElement('a');
+            link.href = imageUrl;
+            link.download = `bounty-badge-${badge.tokenId}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        setIsGeneratingShareCard(false);
+    };
+
+    const shareToTwitter = async (badge) => {
+        if (isGeneratingShareCard) return;
+
+        setIsGeneratingShareCard(true);
+        const imageUrl = await generateShareCard(badge);
+        if (imageUrl) {
+            const text = getShareText(badge);
+            const shareUrl = `${window.location.origin}/explorer?address=${address}`;
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
+            window.open(twitterUrl, '_blank');
+        }
+        setIsGeneratingShareCard(false);
+    };
+
+    const shareToLinkedIn = (badge) => {
+        const text = getShareText(badge);
+        const url = `${shareUrl}/explorer?address=${address}`;
+        const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&summary=${encodeURIComponent(text)}`;
+        window.open(linkedInUrl, '_blank');
+    };
+
+    const copyShareLink = (badge) => {
+        const url = `${shareUrl}/explorer?address=${address}`;
+        navigator.clipboard.writeText(url);
+        // You could add a toast notification here
     };
 
     if (loading) {
@@ -164,6 +265,18 @@ const BountyExplorer = ({ address }) => {
 
     return (
         <div className="max-w-4xl mx-auto p-4 sm:p-6">
+            {/* Loading overlay for PNG generation */}
+            {isGeneratingShareCard && (
+                <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-xl">
+                        <div className="flex items-center gap-3">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#5e2f15]"></div>
+                            <p className="text-lg font-medium">Generating your badge...</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                 {/* Header */}
                 <div className="bg-gradient-to-r from-[#5e2f15] to-[#964f23] text-white p-4 sm:p-6 rounded-t-lg">
@@ -262,6 +375,7 @@ const BountyExplorer = ({ address }) => {
                             {badges.map((badge, index) => (
                                 <div
                                     key={badge.tokenId.toString()}
+                                    data-badge-id={badge.tokenId.toString()}
                                     className={`border-2 rounded-lg p-4 transition-all hover:shadow-md ${getSeverityColor(badge.severity)}`}
                                 >
                                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -273,11 +387,35 @@ const BountyExplorer = ({ address }) => {
                                                 </h3>
                                                 <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm opacity-80 mt-1">
                                                     <span>Token ID: #{badge.tokenId.toString()}</span>
+                                                    <span className="group relative inline-block">
+                                                        <span className="cursor-help">Submission ID: #{badge.submissionId.toString().slice(0, 4)}...</span>
+                                                        <div className="absolute left-0 -top-2 -translate-y-full px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+                                                            Submission ID: #{badge.submissionId.toString()}
+                                                            <div className="absolute left-4 -bottom-1 w-2 h-2 bg-gray-900 rotate-45"></div>
+                                                        </div>
+                                                    </span>
                                                     <span>Merits: {badge.merits.toString()}</span>
-                                                    <span>Date: {new Date(Number(badge.timestamp) * 1000).toLocaleString()}</span>
+                                                    <span className="group relative inline-block">
+                                                        <span className="cursor-help">Date: {new Date(Number(badge.timestamp) * 1000).toLocaleDateString()}</span>
+                                                        <div className="absolute left-0 -top-2 -translate-y-full px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+                                                            {new Date(Number(badge.timestamp) * 1000).toLocaleString()}
+                                                            <div className="absolute left-4 -bottom-1 w-2 h-2 bg-gray-900 rotate-45"></div>
+                                                        </div>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        {/* Full information for image generation (hidden in UI) */}
+                                        <div className="hidden" data-full-info>
+                                            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm opacity-80 mt-1">
+                                                <span>Token ID: #{badge.tokenId.toString()}</span>
+                                                <span>Submission ID: #{badge.submissionId.toString()}</span>
+                                                <span>Merits: {badge.merits.toString()}</span>
+                                                <span>Date: {new Date(Number(badge.timestamp) * 1000).toLocaleString()}</span>
+                                            </div>
+                                        </div>
+
                                         <div className="flex flex-wrap items-center gap-2">
                                             <span className={`px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getSeverityColor(badge.severity)}`}>
                                                 {badge.severity}
@@ -288,6 +426,39 @@ const BountyExplorer = ({ address }) => {
                                                     <span className="text-xs sm:text-sm font-medium">Verified</span>
                                                 </div>
                                             )}
+                                        </div>
+                                    </div>
+
+                                    {/* Share Buttons */}
+                                    <div className="mt-4 pt-4 border-t border-gray-200">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-sm text-gray-600">Share this badge:</span>
+                                            <div className="flex items-center gap-2">
+                                                <button
+                                                    onClick={() => downloadShareCard(badge)}
+                                                    className="p-2 text-[#eeaa2a] hover:bg-[#eeaa2a]/10 rounded-full transition-colors"
+                                                    title="Download Badge Card"
+                                                    disabled={isGeneratingShareCard}
+                                                >
+                                                    <Download className="w-5 h-5" />
+                                                </button>
+                                                <button
+                                                    onClick={() => shareToTwitter(badge)}
+                                                    className="p-2 text-[#1DA1F2] hover:bg-[#1DA1F2]/10 rounded-full transition-colors"
+                                                    title="Share on Twitter"
+                                                    disabled={isGeneratingShareCard}
+                                                >
+                                                    <Twitter className="w-5 h-5" />
+                                                </button>
+                                                <button
+                                                    onClick={() => shareToLinkedIn(badge)}
+                                                    className="p-2 text-[#0077B5] hover:bg-[#0077B5]/10 rounded-full transition-colors"
+                                                    title="Share on LinkedIn"
+                                                    disabled={isGeneratingShareCard}
+                                                >
+                                                    <Linkedin className="w-5 h-5" />
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -308,6 +479,53 @@ const BountyExplorer = ({ address }) => {
                 isOpen={isEmailUploadOpen}
                 onClose={() => setIsEmailUploadOpen(false)}
             />
+
+            {/* Share card template - positioned offscreen */}
+            <div
+                ref={shareCardRef}
+                className="fixed top-0 left-0 -z-50 opacity-0 w-[600px] h-[400px] pointer-events-none"
+            >
+                <div className="w-full h-full bg-[#5e2f15] p-8 rounded-xl text-white">
+                    <div className="flex flex-col h-full">
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <img
+                                    src="/logoo.png"
+                                    alt="Bounties Logo"
+                                    className="h-12 w-auto"
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.parentNode.innerHTML = "BOUNTIES";
+                                    }}
+                                />
+                                <span className="text-2xl font-bold">BOUNTIES</span>
+                            </div>
+                            <div className="text-sm opacity-80">
+                                #{currentBadge?.tokenId.toString()}
+                            </div>
+                        </div>
+
+                        <div className="flex-1 flex flex-col justify-center items-center text-center">
+                            <div className="mb-6">
+                                {currentBadge && getSeverityIcon(currentBadge.severity)}
+                            </div>
+                            <h2 className="text-3xl font-bold mb-2">{currentBadge?.platform}</h2>
+                            <p className="text-xl mb-4">{currentBadge?.severity} Severity Badge</p>
+                            <div className="flex items-center gap-2 text-[#eeaa2a]">
+                                <Award className="w-6 h-6" />
+                                <span className="text-2xl font-bold">{currentBadge?.merits.toString()} Merits</span>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 text-sm opacity-80">
+                            <div className="flex items-center justify-between">
+                                <span>Verified by Bounties</span>
+                                <span>{currentBadge && new Date(Number(currentBadge.timestamp) * 1000).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

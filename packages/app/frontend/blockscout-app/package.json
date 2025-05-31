@@ -17,6 +17,8 @@
     "date-fns": "^2.30.0",
     "ethers": "^6.7.0",
     "framer-motion": "^10.16.4",
+    "html-to-image": "^1.11.13",
+    "html2canvas": "^1.4.1",
     "lucide-react": "^0.511.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
