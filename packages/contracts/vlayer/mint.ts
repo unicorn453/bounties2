@@ -5,8 +5,8 @@ import {
 } from "@vlayer/sdk/config";
 
 // Hardcoded addresses from deployment
-const PROVER_ADDRESS = "0x604125bcee6e8b38d910d59a9edd7a3085f8b53b";
-const VERIFIER_ADDRESS = "0x88884510087675005ef12209ed8c50a537481aab";
+const PROVER_ADDRESS = "0xe7439829bb4bc8aed8ebddef00ff953d0cea2ac1";
+const VERIFIER_ADDRESS = "0x5d8d62f0c91b318026a144c5c73efd82072c2b58";
 import proverSpec from "../out/Prover.sol/BugBountyEmailProver.json";
 import verifierSpec from "../out/BountyRegistry.sol/BugBountyRegistry.json";
 

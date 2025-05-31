@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@blockscout/app-sdk": "^0.1.0",
+    "@blockscout/app-sdk": "^0.1.1",
     "@heroicons/react": "^2.0.18",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",

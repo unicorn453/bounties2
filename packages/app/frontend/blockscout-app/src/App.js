@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { NotificationProvider } from "@blockscout/app-sdk";
 import MetaMaskLogin from './components/MetaMaskLogin';
+import BountyExplorer from './components/BlockchainExplorer';
 import TransactionHistory from './components/TransactionHistory';
 import BugBountyDashboard from './components/BugBountyDashboard';
 import TransactionComponent from './components/TransactionComponent';
@@ -25,6 +27,7 @@ function App() {
   }
 
   return (
+    <NotificationProvider>
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
       {/* Header */}
       <header className="bg-black/50 backdrop-blur-md border-b border-gray-800">
