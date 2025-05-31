@@ -4,11 +4,12 @@ import TransactionHistory from './components/TransactionHistory';
 import BugBountyDashboard from './components/BugBountyDashboard';
 import TransactionComponent from './components/TransactionComponent';
 import BountyExplorer from './components/BlockchainExplorer';
+import EmailParser from './components/EmailUpload';
 
 function App() {
   const [connectedAddress, setConnectedAddress] = useState('');
   const [provider, setProvider] = useState(null);
-  const [activeTab, setActiveTab] = useState('transactions'); // 'transactions', 'bounties', or 'explorer'
+  const [activeTab, setActiveTab] = useState('transactions'); // 'transactions', 'bounties', 'explorer', or 'email'
 
   const handleConnect = (address, ethProvider) => {
     setConnectedAddress(address);
@@ -72,6 +73,18 @@ function App() {
                 >
                   Explorer
                 </button>
+                <button
+                  onClick={() => setActiveTab('email')}
+                  className={`
+                    py-4 px-1 border-b-2 font-medium text-sm
+                    ${activeTab === 'email'
+                      ? 'border-primary-500 text-primary-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }
+                  `}
+                >
+                  Email Parser
+                </button>
               </nav>
             </div>
 
@@ -91,9 +104,12 @@ function App() {
               ) : activeTab === 'bounties' ? (
                 // Bug Bounties Tab
                 <BugBountyDashboard address={connectedAddress} />
-              ) : (
+              ) : activeTab === 'explorer' ? (
                 // Blockchain Explorer Tab
                 <BountyExplorer address={connectedAddress} />
+              ) : (
+                // Email Parser Tab
+                <EmailParser />
               )}
             </div>
           </div>
