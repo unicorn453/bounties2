@@ -1,35 +1,30 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
+import { Shield, Award, Target, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const LandingPage = ({ onConnect }) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const connectWallet = async () => {
+  const handleExplore = async () => {
     try {
       setIsConnecting(true);
       setError('');
 
-      // Check if MetaMask is installed
       if (!window.ethereum) {
         throw new Error('Please install MetaMask to use this feature');
       }
 
-      // Request account access
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       
       if (accounts.length > 0) {
-        // Create Web3Provider instance
         const provider = new ethers.BrowserProvider(window.ethereum);
-        
-        // Get the signer
         const signer = await provider.getSigner();
-        
-        // Get the address
         const address = await signer.getAddress();
-        
-        // Call the onConnect callback with the address and provider
         onConnect(address, provider);
+        navigate('/explorer');
       }
     } catch (err) {
       setError(err.message);
@@ -40,81 +35,127 @@ const LandingPage = ({ onConnect }) => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#D1D1D1] relative overflow-x-hidden">
-      {/* Header */}
-      <div className="w-full max-w-[90%] mx-auto mt-4 bg-white shadow-md rounded-full flex justify-center items-center">
-        <div className="w-full px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <img src="/logo.png" alt="Logo" className="w-12 h-10" />
-            <div className="text-black text-xl font-bold">
-              Bounty
-            </div>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            Proof of Hack
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Show off your bug bounty wins—just with your emails. Sounds intriguing, right?
+          </p>
+          <button
+            onClick={handleExplore}
+            disabled={isConnecting}
+            className="bg-[#eeaa2a] hover:bg-[#d49b25] text-black font-bold py-4 px-8 rounded-full text-lg transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 mx-auto shadow-md"
+          >
+            {isConnecting ? 'Connecting...' : 'Explore'}
+            {!isConnecting && <ArrowRight className="w-5 h-5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl p-8 text-gray-900 border border-blue-100 shadow-sm hover:shadow-md transition-all hover:scale-[1.02]">
+            <Shield className="w-12 h-12 text-blue-500 mb-4" />
+            <h3 className="text-xl font-bold mb-2">Showcase your skills</h3>
+            <p className="text-gray-600">Flex your skills with your minted badges.</p>
           </div>
-          <div className="flex items-center gap-4">
-            <button className="text-black text-base font-medium hover:text-gray-600">
-              Sign up
-            </button>
-            <button className="text-black text-base font-medium hover:text-gray-600">
-              Login
-            </button>
-            <button 
-              onClick={connectWallet}
-              disabled={isConnecting}
-              className="bg-[rgba(255,159.93,87.23,0.94)] px-4 py-2 rounded-2xl text-black text-base font-medium hover:bg-[rgba(255,159.93,87.23,0.8)] disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isConnecting ? 'Connecting...' : 'Connect wallet'}
-            </button>
+          <div className="bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-2xl p-8 text-gray-900 border border-amber-100 shadow-sm hover:shadow-md transition-all hover:scale-[1.02]">
+            <Award className="w-12 h-12 text-amber-500 mb-4" />
+            <h3 className="text-xl font-bold mb-2">Earn Rewards</h3>
+            <p className="text-gray-600">Get rewarded for your contributions with our tokenized bounty system.</p>
+          </div>
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-2xl p-8 text-gray-900 border border-purple-100 shadow-sm hover:shadow-md transition-all hover:scale-[1.02]">
+            <Target className="w-12 h-12 text-purple-500 mb-4" />
+            <h3 className="text-xl font-bold mb-2">Verify your bounties</h3>
+            <p className="text-gray-600">Verify your findings thro our email zkp partner vlayer.</p>
           </div>
         </div>
       </div>
 
-      {error && (
-        <div className="w-full max-w-[90%] mx-auto mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-          {error}
-        </div>
-      )}
-
-      {/* Main Content */}
-      <div className="w-full max-w-[90%] mx-auto mt-8 bg-[#F0F0F0] border border-[rgba(0,0,0,0.2)] rounded-lg p-8">
-        <div className="flex flex-col items-center text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-black mb-4 max-w-2xl">
-            Join The Bug Bounty Revolution!
-          </h1>
-          <p className="text-lg md:text-xl font-bold text-black max-w-2xl">
-            Discover and report bugs, earn rewards, and climb the <strong>leader board</strong>!
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center">
-          <img src="/hacker.png" alt="Feature 1" className="w-full max-w-[280px] h-auto rounded-lg shadow-md" />
-          <img src="/ThreeCoolMen.png" alt="Feature 2" className="w-full max-w-[280px] h-auto rounded-lg shadow-md" />
-          <img src="/coinpick.png" alt="Feature 3" className="w-full max-w-[280px] h-auto rounded-lg shadow-md" />
+      {/* Showcase Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="relative group">
+            <img 
+              src="/hacker.png" 
+              alt="Hacker" 
+              className="w-full h-[300px] object-cover rounded-2xl shadow-md transform transition-transform group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white text-lg font-medium">Join our community of security researchers</p>
+            </div>
+          </div>
+          <div className="relative group">
+            <img 
+              src="/ThreeCoolMen.png" 
+              alt="Team" 
+              className="w-full h-[300px] object-cover rounded-2xl shadow-md transform transition-transform group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white text-lg font-medium">Collaborate with top security experts</p>
+            </div>
+          </div>
+          <div className="relative group">
+            <img 
+              src="/coinpick.png" 
+              alt="Rewards" 
+              className="w-full h-[300px] object-cover rounded-2xl shadow-md transform transition-transform group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white text-lg font-medium">Earn rewards for your findings</p>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="w-full bg-[#010101] mt-8 py-8">
-        <div className="max-w-[90%] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-white">
-            <h3 className="text-2xl font-bold mb-4">Links</h3>
-            <p className="text-base font-medium mb-2 cursor-pointer hover:text-gray-300">Login</p>
-            <p className="text-base font-medium mb-2 cursor-pointer hover:text-gray-300">Sign Up</p>
-          </div>
-
-          <div className="text-white">
-            <h3 className="text-2xl font-bold mb-4">Contact Us</h3>
-            <p className="text-base font-medium mb-2">Email: example@gmail.com</p>
-            <p className="text-base font-medium mb-2">Phone: +1 232 123 3452</p>
-          </div>
-
-          <div className="text-white">
-            <h3 className="text-2xl font-bold mb-4">Follow Us</h3>
-            <div className="w-8 h-8 mt-2">
-              <div className="w-6 h-6 border-4 border-white rounded-full" />
+      <footer className="bg-gray-50 mt-16 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-[#eeaa2a] transition-colors">About Us</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-[#eeaa2a] transition-colors">How It Works</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-[#eeaa2a] transition-colors">Leaderboard</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Contact</h3>
+              <ul className="space-y-2">
+                <li className="text-gray-600">Email: contact@bounties.com</li>
+                <li className="text-gray-600">Discord: bounties.gg</li>
+                <li className="text-gray-600">Twitter: @bounties</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Newsletter</h3>
+              <p className="text-gray-600 mb-4">Stay updated with our latest bounties and rewards.</p>
+              <div className="flex gap-2">
+                <input 
+                  type="email" 
+                  placeholder="Enter your email" 
+                  className="bg-white text-gray-900 placeholder-gray-400 px-4 py-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-[#eeaa2a] border border-gray-200"
+                />
+                <button className="bg-[#eeaa2a] text-black px-4 py-2 rounded-lg hover:bg-[#d49b25] transition-colors shadow-sm">
+                  Subscribe
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </footer>
+
+      {error && (
+        <div className="fixed bottom-4 right-4 bg-red-50 border border-red-200 text-red-700 px-6 py-3 rounded-lg shadow-lg">
+          {error}
+        </div>
+      )}
     </div>
   );
 };

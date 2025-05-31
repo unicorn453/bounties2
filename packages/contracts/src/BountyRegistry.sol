@@ -32,6 +32,10 @@ contract BugBountyRegistry is Verifier, ERC721 {
     mapping(address => mapping(string => uint256)) public userSeverityCounts;
     mapping(string => bool) public usedSubmissionIds;
     
+    // User tracking
+    address[] public users;
+    mapping(address => bool) public isUser;
+    
     address public proverContract;
     uint256 public totalSubmissions;
 
@@ -69,6 +73,12 @@ contract BugBountyRegistry is Verifier, ERC721 {
         // Ensure submission ID hasn't been used
         require(!usedSubmissionIds[submissionId], "Submission already used");
         usedSubmissionIds[submissionId] = true;
+        
+        // Add user to users array if they're new
+        if (!isUser[msg.sender]) {
+            users.push(msg.sender);
+            isUser[msg.sender] = true;
+        }
         
         // Calculate merits based on severity
         uint256 merits = calculateMerits(severity);
@@ -196,5 +206,10 @@ contract BugBountyRegistry is Verifier, ERC721 {
         highCount = userSeverityCounts[user]["High"];
         mediumCount = userSeverityCounts[user]["Medium"];
         lowCount = userSeverityCounts[user]["Low"];
+    }
+
+    // Add new function to get all users
+    function getAllUsers() external view returns (address[] memory) {
+        return users;
     }
 }
