@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ethers } from 'ethers';
-import { LogOut } from 'lucide-react';
+import { LogOut, Menu, X } from 'lucide-react';
 
 const Navbar = ({ connectedAddress, onConnect }) => {
   const navigate = useNavigate();
   const [isConnecting, setIsConnecting] = React.useState(false);
   const [error, setError] = React.useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const connectWallet = async () => {
     try {
@@ -34,12 +35,14 @@ const Navbar = ({ connectedAddress, onConnect }) => {
   };
 
   const handleLogout = () => {
-    // Clear the connected address from localStorage
     localStorage.removeItem('connectedAddress');
-    // Call onConnect with null values to clear the state
     onConnect('', null);
-    // Navigate to home page
     navigate('/');
+    setIsMobileMenuOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
@@ -55,8 +58,8 @@ const Navbar = ({ connectedAddress, onConnect }) => {
             <span className="text-2xl font-bold text-white uppercase">BOUNTIES</span>
           </div>
 
-          {/* Wallet Connection */}
-          <div className="flex items-center">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center">
             {connectedAddress ? (
               <div className="flex items-center gap-4">
                 <button
@@ -89,8 +92,65 @@ const Navbar = ({ connectedAddress, onConnect }) => {
               </button>
             )}
           </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={toggleMobileMenu}
+              className="p-2 text-white hover:text-[#eeaa2a] transition-colors"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-[#5e2f15] border-t border-white/10">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            {connectedAddress ? (
+              <>
+                <button
+                  onClick={() => {
+                    navigate('/explorer');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left text-white hover:text-[#eeaa2a] px-3 py-2 rounded-md text-base font-medium transition-colors"
+                >
+                  Explorer
+                </button>
+                <div className="px-3 py-2">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-sm font-medium text-white">
+                      {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left text-white hover:text-[#eeaa2a] px-3 py-2 rounded-md text-base font-medium transition-colors"
+                >
+                  Disconnect Wallet
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={connectWallet}
+                disabled={isConnecting}
+                className="w-full bg-[#eeaa2a] px-4 py-2 rounded-md text-black text-base font-medium hover:bg-[#d49b25] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {error && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
