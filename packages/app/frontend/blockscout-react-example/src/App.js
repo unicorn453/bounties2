@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import MetaMaskLogin from './components/MetaMaskLogin';
 import TransactionHistory from './components/TransactionHistory';
 import BugBountyDashboard from './components/BugBountyDashboard';
+import TransactionComponent from './components/TransactionComponent';
+
 
 function App() {
   const [connectedAddress, setConnectedAddress] = useState('');
@@ -68,12 +70,14 @@ function App() {
                   <h2 className="text-lg font-medium text-gray-900 mb-4">
                     Your Transactions
                   </h2>
+                  {/* Transaction History Tab */}
+                  <TransactionComponent />
                   <TransactionHistory 
                     address={connectedAddress}
-                    provider={provider}
                   />
                 </>
               ) : (
+                // Bug Bounties Tab
                 <BugBountyDashboard address={connectedAddress} />
               )}
             </div>

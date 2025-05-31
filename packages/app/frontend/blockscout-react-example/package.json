@@ -7,27 +7,25 @@
     "@heroicons/react": "^2.0.18",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
+    "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^13.5.0",
     "@vlayer/sdk": "^1.0.0",
     "ajv": "^8.17.1",
     "ajv-keywords": "^5.1.0",
-    "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "date-fns": "^2.30.0",
     "ethers": "^6.7.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
-    "process": "^0.11.10",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "stream-browserify": "^3.0.0",
     "web-vitals": "^2.1.4",
     "web3": "^4.16.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "FAST_REFRESH=false react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
@@ -51,9 +49,15 @@
     ]
   },
   "devDependencies": {
+    "assert": "^2.1.0",
     "autoprefixer": "^10.4.14",
+    "buffer": "^6.0.3",
+    "https-browserify": "^1.0.0",
     "postcss": "^8.4.27",
+    "process": "^0.11.10",
     "react-app-rewired": "^2.2.1",
-    "tailwindcss": "^3.3.3"
+    "stream-http": "^3.2.0",
+    "tailwindcss": "^3.3.3",
+    "url": "^0.11.4"
   }
 }

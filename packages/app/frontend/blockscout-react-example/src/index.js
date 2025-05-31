@@ -3,11 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { NotificationProvider, TransactionPopupProvider } from '@blockscout/app-sdk';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <NotificationProvider>
+      <TransactionPopupProvider>
+        <App />
+      </TransactionPopupProvider>
+    </NotificationProvider>
   </React.StrictMode>
 );
 
