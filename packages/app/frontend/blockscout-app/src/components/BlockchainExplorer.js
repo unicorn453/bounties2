@@ -1,65 +1,91 @@
 import { useState, useEffect } from 'react';
-import { Shield, Award, Target, AlertTriangle, Zap, Info } from 'lucide-react';
+import { Shield, Award, Target, AlertTriangle, Zap, Info, Upload } from 'lucide-react';
 import {
     createContext,
 } from "@vlayer/sdk/config";
 import verifierSpec from "./BugBountyRegistry.json";
+import EmailUpload from './EmailUpload';
 
 // Hardcoded addresses
-const VERIFIER_ADDRESS = "0x88884510087675005ef12209ed8c50a537481aab";
+const VERIFIER_ADDRESS = "0x5d8d62f0c91b318026a144c5c73efd82072c2b58";
 
 const BountyExplorer = ({ address }) => {
     const [userStats, setUserStats] = useState(null);
     const [badges, setBadges] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isEmailUploadOpen, setIsEmailUploadOpen] = useState(false);
+
+    const loadBountyData = async (ethClient) => {
+        if (!address) {
+            setLoading(false);
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            // Get user stats
+            const userStats = await ethClient.readContract({
+                address: VERIFIER_ADDRESS,
+                abi: verifierSpec.abi,
+                functionName: "getUserStats",
+                args: [address],
+            });
+
+            // Get badge details
+            const badges = await ethClient.readContract({
+                address: VERIFIER_ADDRESS,
+                abi: verifierSpec.abi,
+                functionName: "getUserBadges",
+                args: [address],
+            });
+
+            setUserStats(userStats);
+            setBadges(badges);
+            setLoading(false);
+        } catch (err) {
+            setError(err.message);
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const loadBountyData = async () => {
-            if (!address) {
-                setLoading(false);
-                return;
-            }
-
-            try {
-                setLoading(true);
-
-                // Create config object directly with your values
-                const config = {
-                    vlayerEnv: 'testnet',
-                    chainName: 'lineaSepolia',
-                    proverUrl: 'https://stable-fake-prover.vlayer.xyz',
-                    jsonRpcUrl: 'https://rpc.sepolia.linea.build',
-                    testPrivateKey: '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80',
-                };
-                const { ethClient } = createContext(config);
-
-                // Get user stats
-                const userStats = await ethClient.readContract({
-                    address: VERIFIER_ADDRESS,
-                    abi: verifierSpec.abi,
-                    functionName: "getUserStats",
-                    args: [address],
-                });
-
-                // Get badge details
-                const badges = await ethClient.readContract({
-                    address: VERIFIER_ADDRESS,
-                    abi: verifierSpec.abi,
-                    functionName: "getUserBadges",
-                    args: [address],
-                });
-
-                setUserStats(userStats);
-                setBadges(badges);
-                setLoading(false);
-            } catch (err) {
-                setError(err.message);
-                setLoading(false);
-            }
+        // Create config object directly with your values
+        const config = {
+            vlayerEnv: 'testnet',
+            chainName: 'sepolia',
+            proverUrl: 'https://stable-fake-prover.vlayer.xyz',
+            jsonRpcUrl: 'https://ethereum-sepolia-rpc.publicnode.com',
+            testPrivateKey: '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80',
         };
+        const { ethClient } = createContext(config);
 
-        loadBountyData();
+        // Initial load
+        loadBountyData(ethClient);
+
+        // Subscribe to BadgeAwarded events
+        const unsubscribe = ethClient.watchContractEvent({
+            address: VERIFIER_ADDRESS,
+            abi: verifierSpec.abi,
+            eventName: 'BadgeAwarded',
+            onLogs: (logs) => {
+                // Check if the event is for the current user
+                const relevantLogs = logs.filter(log => 
+                    log.args.user.toLowerCase() === address.toLowerCase()
+                );
+                
+                if (relevantLogs.length > 0) {
+                    // Reload data when a new badge is awarded to the current user
+                    loadBountyData(ethClient);
+                }
+            },
+        });
+
+        // Cleanup subscription on component unmount
+        return () => {
+            unsubscribe();
+        };
     }, [address]);
 
     const getSeverityIcon = (severity) => {
@@ -141,13 +167,24 @@ const BountyExplorer = ({ address }) => {
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                 {/* Header */}
                 <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
-                    <h1 className="text-2xl font-bold flex items-center gap-2">
-                        <Shield className="w-6 h-6" />
-                        Bug Bounty Explorer
-                    </h1>
-                    <p className="text-blue-100 mt-2">
-                        User: {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'Not Connected'}
-                    </p>
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h1 className="text-2xl font-bold flex items-center gap-2">
+                                <Shield className="w-6 h-6" />
+                                Bug Bounty Explorer
+                            </h1>
+                            <p className="text-blue-100 mt-2">
+                                User: {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'Not Connected'}
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => setIsEmailUploadOpen(true)}
+                            className="flex items-center gap-2 px-4 py-2 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-colors"
+                        >
+                            <Upload className="w-5 h-5" />
+                            <span>Upload Email</span>
+                        </button>
+                    </div>
                 </div>
 
                 {/* Stats Overview */}
@@ -264,6 +301,13 @@ const BountyExplorer = ({ address }) => {
                     <p>Contract: {VERIFIER_ADDRESS}</p>
                 </div>
             </div>
+
+            {/* Email Upload Popup */}
+            <EmailUpload
+                address={address}
+                isOpen={isEmailUploadOpen}
+                onClose={() => setIsEmailUploadOpen(false)}
+            />
         </div>
     );
 };

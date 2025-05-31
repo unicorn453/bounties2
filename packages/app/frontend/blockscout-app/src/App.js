@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { NotificationProvider } from "@blockscout/app-sdk";
 import MetaMaskLogin from './components/MetaMaskLogin';
+import BountyExplorer from './components/BlockchainExplorer';
 import TransactionHistory from './components/TransactionHistory';
 import BugBountyDashboard from './components/BugBountyDashboard';
 import TransactionComponent from './components/TransactionComponent';
@@ -22,6 +24,7 @@ function App() {
   }
 
   return (
+    <NotificationProvider>
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow">
@@ -68,47 +71,40 @@ function App() {
                 </button>
               </nav>
             </div>
-
-            {/* Content */}
-            <div className="bg-white shadow rounded-lg p-6">
-              {activeTab === 'transactions' ? (
-                <>
-                  <h2 className="text-lg font-medium text-gray-900 mb-4">
-                    Your Transactions
-                  </h2>
-                  {/* Transaction History Tab */}
-                  <TransactionComponent />
-                  <TransactionHistory 
-                    address={connectedAddress}
-                  />
-                </>
-              ) : (
-                // Bug Bounties Tab
-                <BugBountyDashboard address={connectedAddress} />
-              )}
-            </div>
           </div>
-        ) : (
-          <div className="text-center py-12">
-            <h2 className="text-xl font-medium text-gray-900 mb-4">
-              Welcome to Blockchain Explorer
-            </h2>
-            <p className="text-gray-500">
-              Connect your MetaMask wallet to view your transaction history and bug bounties
+        </header>
+
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {connectedAddress ? (
+            <div className="space-y-8">
+              {/* Content */}
+              <div className="bg-white shadow rounded-lg p-6">
+                <BountyExplorer address={connectedAddress} />
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <h2 className="text-xl font-medium text-gray-900 mb-4">
+                Welcome to Blockchain Explorer
+              </h2>
+              <p className="text-gray-500">
+                Connect your MetaMask wallet to view the blockchain explorer
+              </p>
+            </div>
+          )}
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-white border-t border-gray-200 mt-auto">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <p className="text-center text-gray-500 text-sm">
+              Powered by Ethers.js and VLayer SDK
             </p>
           </div>
-        )}
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <p className="text-center text-gray-500 text-sm">
-            Powered by Ethers.js and VLayer SDK
-          </p>
-        </div>
-      </footer>
-    </div>
+        </footer>
+      </div>
+    </NotificationProvider>
   );
 }
 
