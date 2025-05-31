@@ -11,7 +11,7 @@ const {
 } = createContext(config);
 
 // Your deployed verifier contract address from the prove.ts output
-const VERIFIER_ADDRESS = "0xa7be55e6774497b8581f4f5fe9684a5513c333c0";
+const VERIFIER_ADDRESS = "0x17deb0c92eca8a255de83dd677d35f5675b26f7d";
 
 // Function to verify a specific user's badges
 export async function verifyUserBadges(userAddress: string) {

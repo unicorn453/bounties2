@@ -113,11 +113,14 @@ const [proof, submission] = result;
 
 console.log("Proof generated successfully!");
 console.log("Submission details:");
+console.log("  - Reporter:", submission.reporter);
 console.log("  - Platform:", submission.platform);
 console.log("  - Severity:", submission.severity);
+console.log("  - Merits:", submission.merits.toString());
 console.log("  - Submission ID:", submission.submissionId);
 console.log("  - Timestamp:", submission.timestamp.toString());
-console.log("  - Is Valid:", submission.isValid);
+console.log("  - Verified:", submission.verified);
+console.log("  - Token ID:", submission.tokenId.toString());
 
 console.log("Submitting proof to registry...");
 
@@ -168,6 +171,24 @@ if (receipt.status === "success") {
   console.log("  - High Count:", userStats[3].toString());
   console.log("  - Medium Count:", userStats[4].toString());
   console.log("  - Low Count:", userStats[5].toString());
+
+  // Get badge details
+  const badges = await ethClient.readContract({
+    address: verifierAddress,
+    abi: verifierSpec.abi,
+    functionName: "getUserBadges",
+    args: [john.address],
+  });
+
+  console.log("\nBadge details:");
+  badges.forEach((badge: any, index: number) => {
+    console.log(`\nBadge #${index + 1}:`);
+    console.log("  - Platform:", badge.platform);
+    console.log("  - Severity:", badge.severity);
+    console.log("  - Merits:", badge.merits.toString());
+    console.log("  - Token ID:", badge.tokenId.toString());
+    console.log("  - Verified:", badge.verified);
+  });
 } else {
   console.log("❌ Transaction failed");
 }
