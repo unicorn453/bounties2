@@ -10,12 +10,35 @@ export const NETWORK_CONFIG = {
 
 // Initialize configuration
 export const initializeConfig = () => {
-  const config = getConfig();
-  const context = createContext(config);
-  return {
-    ethClient: context.ethClient,
-    account: context.account,
-  };
+  try {
+    // Log environment variables
+    console.log('Environment variables:', {
+      CHAIN_NAME: process.env.CHAIN_NAME,
+      JSON_RPC_URL: process.env.JSON_RPC_URL,
+      VLAYER_ENV: process.env.VLAYER_ENV,
+      PROVER_URL: process.env.PROVER_URL,
+      EXAMPLES_TEST_PRIVATE_KEY: process.env.EXAMPLES_TEST_PRIVATE_KEY,
+      VLAYER_CONTRACT_ADDRESS: process.env.VLAYER_CONTRACT_ADDRESS
+    });
+
+    const config = getConfig();
+    console.log('Config from getConfig:', config);
+    
+    const context = createContext(config);
+    console.log('Context from createContext:', context);
+
+    return {
+      ethClient: context.ethClient,
+      account: context.account,
+    };
+  } catch (error) {
+    console.error('Failed to initialize config:', error);
+    // Return a fallback configuration
+    return {
+      ethClient: null,
+      account: null,
+    };
+  }
 };
 
 // ABI will be imported from your contract JSON

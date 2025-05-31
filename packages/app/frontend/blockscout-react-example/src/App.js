@@ -3,12 +3,12 @@ import MetaMaskLogin from './components/MetaMaskLogin';
 import TransactionHistory from './components/TransactionHistory';
 import BugBountyDashboard from './components/BugBountyDashboard';
 import TransactionComponent from './components/TransactionComponent';
-
+import BountyExplorer from './components/BlockchainExplorer';
 
 function App() {
   const [connectedAddress, setConnectedAddress] = useState('');
   const [provider, setProvider] = useState(null);
-  const [activeTab, setActiveTab] = useState('transactions'); // 'transactions' or 'bounties'
+  const [activeTab, setActiveTab] = useState('transactions'); // 'transactions', 'bounties', or 'explorer'
 
   const handleConnect = (address, ethProvider) => {
     setConnectedAddress(address);
@@ -60,6 +60,18 @@ function App() {
                 >
                   Bug Bounties
                 </button>
+                <button
+                  onClick={() => setActiveTab('explorer')}
+                  className={`
+                    py-4 px-1 border-b-2 font-medium text-sm
+                    ${activeTab === 'explorer'
+                      ? 'border-primary-500 text-primary-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }
+                  `}
+                >
+                  Explorer
+                </button>
               </nav>
             </div>
 
@@ -76,9 +88,12 @@ function App() {
                     address={connectedAddress}
                   />
                 </>
-              ) : (
+              ) : activeTab === 'bounties' ? (
                 // Bug Bounties Tab
                 <BugBountyDashboard address={connectedAddress} />
+              ) : (
+                // Blockchain Explorer Tab
+                <BountyExplorer address={connectedAddress} />
               )}
             </div>
           </div>
