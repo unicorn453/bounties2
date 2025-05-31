@@ -137,7 +137,7 @@ contract BugBountyEmailProver is Prover {
         }
 
         BugBountySubmission memory submission = parseEmailContent(emailContent);
-        submission.reporter = msg.sender;
+        submission.reporter = tx.origin;
         submission.timestamp = block.timestamp;
         submission.verified = true;
         submission.tokenId = 0;  // This will be set by the registry

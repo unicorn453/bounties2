@@ -6,7 +6,7 @@ import {
 import verifierSpec from "./BugBountyRegistry.json";
 
 // Hardcoded addresses
-const VERIFIER_ADDRESS = "0x611236b1276616e497bde86005c9944121a34633";
+const VERIFIER_ADDRESS = "0x3d316b3f13c3533a2a4f7f516d0b572365f052e8";
 
 const BountyExplorer = ({ address }) => {
     const [userStats, setUserStats] = useState(null);
