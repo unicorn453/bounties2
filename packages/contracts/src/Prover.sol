@@ -102,7 +102,8 @@ contract BugBountyEmailProver is Prover {
 
     function prove(
         string calldata emailContent,
-        string calldata emailHeaders
+        string calldata emailHeaders,
+        address reporter
     ) public view returns (Proof memory, BugBountySubmission memory) {
         // Basic validation - check if this looks like a bug bounty email
         require(
@@ -137,7 +138,7 @@ contract BugBountyEmailProver is Prover {
         }
 
         BugBountySubmission memory submission = parseEmailContent(emailContent);
-        submission.reporter = tx.origin;
+        submission.reporter = reporter;
         submission.timestamp = block.timestamp;
         submission.verified = true;
         submission.tokenId = 0;  // This will be set by the registry

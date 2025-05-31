@@ -109,7 +109,7 @@ function App() {
                 <BountyExplorer address={connectedAddress} />
               ) : (
                 // Email Parser Tab
-                <EmailParser />
+                <EmailParser address={connectedAddress} />
               )}
             </div>
           </div>

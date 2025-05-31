@@ -5,10 +5,10 @@ import proverSpec from "./BugBountyEmailProver.json";
 import verifierSpec from "./BugBountyRegistry.json";
 
 // Hardcoded addresses from deployment
-const PROVER_ADDRESS = "0x4ceeb9cf8499f13d018606ad32faecf568c5c286";
-const VERIFIER_ADDRESS = "0x46f0d007f332b115858e6da427e279f4a1e54ec1";
+const PROVER_ADDRESS = "0x604125bcee6e8b38d910d59a9edd7a3085f8b53b";
+const VERIFIER_ADDRESS = "0x88884510087675005ef12209ed8c50a537481aab";
 
-const EmailParserWithMinting = () => {
+const EmailParserWithMinting = ({ address }) => {
     const [headers, setHeaders] = useState({});
     const [body, setBody] = useState('');
     const [error, setError] = useState('');
@@ -115,7 +115,8 @@ const EmailParserWithMinting = () => {
                 proverUrl: 'https://stable-fake-prover.vlayer.xyz',
                 jsonRpcUrl: 'https://rpc.sepolia.linea.build',
                 privateKey: '0x06144584635a701efc050f7916a45fd94b4be93b961fd85a5dc2b51048b75d87',
-                token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbnZpcm9ubWVudCI6InRlc3QiLCJpYXQiOjE3NDg1MzU5MDQsImV4cCI6MTc4MDE1ODMwNCwic3ViIjoiLzJqc0VWcEtKZDlOcnAreGMxclFzQUd4UE9rR1RKa3k5YUJKTTZjM3VlWXdBUndNd2dnRHVqNElsZk1wNFB4Q3ltekZWVzJnaE9LVlpEdGh2MkdqOUE9PSJ9.cYLG3SZhaIGW2TdJJ9KooJKLdqIShqOTai83EW4t-tF2tNADWZGxcUZbeC7RUOBuOBwdIlQoBWVWjh21TR3LJxiLYSNdkKJ8LzxHxlpRyKb6p885TsasGOoN05WVSxUYNR9DJekZSbKQ7x8qsA7DpJI50hUO_qPyMB5rscqzJDJW3VRap-J7PKa8swd02N9xJFMyv1VcAXNETkgpq2p5sX_Uzpp9d0FgHaq--eKlueSBlmIHVYyyjJgci3VOs4BCQVSW0Dac8cF7maNQMMTZNVDjbgA60Eck0M84r35SovW_t28mBoWHLpgOasXDZXtqqySp51Nj5-i-mSilS1iMdWd0UW3kC7orhdw5c3trPfYRZH3B7i9pe37GnTGd9A226igrd4Ib4ViImlwbLQtYzlX-cRd2-nZ9WA4U8_mQgXUNdTb5mM2KSxe4goC45P2dtW2Md9hZj6TZz6wI-3mE3kJbyowmtRhwCODHoA4Aq0dpiDTcfiDAyapoku-eRiSkI4AA5VN6HEXRJ-fYO7GVCiIeV_CgBjmdRrPMHOp4xxbljOtR0EhtfFFt0Nr7u3EhQgR95PWYAa12HvDlVGGoKn3lMao0zzTBt2vkxf9TZD1LRjjkTRWpjzbig5lFDWtA4_lOLTFcS31cKbAbLfrTlkk9KCyhqcbSc-V2_cFjq9Q'
+                token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbnZpcm9ubWVudCI6InRlc3QiLCJpYXQiOjE3NDg1MzU5MDQsImV4cCI6MTc4MDE1ODMwNCwic3ViIjoiLzJqc0VWcEtKZDlOcnAreGMxclFzQUd4UE9rR1RKa3k5YUJKTTZjM3VlWXdBUndNd2dnRHVqNElsZk1wNFB4Q3ltekZWVzJnaE9LVlpEdGh2MkdqOUE9PSJ9.cYLG3SZhaIGW2TdJJ9KooJKLdqIShqOTai83EW4t-tF2tNADWZGxcUZbeC7RUOBuOBwdIlQoBWVWjh21TR3LJxiLYSNdkKJ8LzxHxlpRyKb6p885TsasGOoN05WVSxUYNR9DJekZSbKQ7x8qsA7DpJI50hUO_qPyMB5rscqzJDJW3VRap-J7PKa8swd02N9xJFMyv1VcAXNETkgpq2p5sX_Uzpp9d0FgHaq--eKlueSBlmIHVYyyjJgci3VOs4BCQVSW0Dac8cF7maNQMMTZNVDjbgA60Eck0M84r35SovW_t28mBoWHLpgOasXDZXtqqySp51Nj5-i-mSilS1iMdWd0UW3kC7orhdw5c3trPfYRZH3B7i9pe37GnTGd9A226igrd4Ib4ViImlwbLQtYzlX-cRd2-nZ9WA4U8_mQgXUNdTb5mM2KSxe4goC45P2dtW2Md9hZj6TZz6wI-3mE3kJbyowmtRhwCODHoA4Aq0dpiDTcfiDAyapoku-eRiSkI4AA5VN6HEXRJ-fYO7GVCiIeV_CgBjmdRrPMHOp4xxbljOtR0EhtfFFt0Nr7u3EhQgR95PWYAa12HvDlVGGoKn3lMao0zzTBt2vkxf9TZD1LRjjkTRWpjzbig5lFDWtA4_lOLTFcS31cKbAbLfrTlkk9KCyhqcbSc-V2_cFjq9Q',
+                gasLimit: 10000000
             };
             console.log(config)
             const {
@@ -144,10 +145,9 @@ const EmailParserWithMinting = () => {
                 address: PROVER_ADDRESS,
                 proverAbi: proverSpec.abi,
                 functionName: "prove",
-                args: [body, headersString],
+                args: [body, headersString, address],
                 chainId: chain.id,
-                gasLimit: config.gasLimit,
-                account: john.address,
+                gasLimit: 100000000,
             });
 
             setMintingStatus('Waiting for proving result...');

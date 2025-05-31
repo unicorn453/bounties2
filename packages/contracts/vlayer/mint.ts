@@ -5,8 +5,8 @@ import {
 } from "@vlayer/sdk/config";
 
 // Hardcoded addresses from deployment
-const PROVER_ADDRESS = "0x177f725dc00514d37682d6bde5898b00f1e001c2";
-const VERIFIER_ADDRESS = "0xb5c738d265aedadca5da52a59f58f6f03fbc6565";
+const PROVER_ADDRESS = "0x604125bcee6e8b38d910d59a9edd7a3085f8b53b";
+const VERIFIER_ADDRESS = "0x88884510087675005ef12209ed8c50a537481aab";
 import proverSpec from "../out/Prover.sol/BugBountyEmailProver.json";
 import verifierSpec from "../out/BountyRegistry.sol/BugBountyRegistry.json";
 
@@ -78,7 +78,7 @@ async function mintBadge() {
         address: PROVER_ADDRESS,
         proverAbi: proverSpec.abi,
         functionName: "prove",
-        args: [SAMPLE_EMAIL_CONTENT, SAMPLE_EMAIL_HEADERS],
+        args: [SAMPLE_EMAIL_CONTENT, SAMPLE_EMAIL_HEADERS, john.address],
         chainId: chain.id,
         gasLimit: config.gasLimit,
     });

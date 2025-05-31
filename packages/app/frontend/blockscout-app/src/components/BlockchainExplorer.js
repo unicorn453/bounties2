@@ -6,7 +6,7 @@ import {
 import verifierSpec from "./BugBountyRegistry.json";
 
 // Hardcoded addresses
-const VERIFIER_ADDRESS = "0x3d316b3f13c3533a2a4f7f516d0b572365f052e8";
+const VERIFIER_ADDRESS = "0x88884510087675005ef12209ed8c50a537481aab";
 
 const BountyExplorer = ({ address }) => {
     const [userStats, setUserStats] = useState(null);
@@ -237,6 +237,7 @@ const BountyExplorer = ({ address }) => {
                                                 <div className="flex items-center gap-4 text-sm opacity-80">
                                                     <span>Token ID: #{badge.tokenId.toString()}</span>
                                                     <span>Merits: {badge.merits.toString()}</span>
+                                                    <span>Date: {new Date(Number(badge.timestamp) * 1000).toLocaleString()}</span>
                                                 </div>
                                             </div>
                                         </div>
