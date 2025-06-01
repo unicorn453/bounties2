@@ -3,4 +3,5 @@
   command = "npm install --legacy-peer-deps && npm run build"
 
 [build.environment]
-  PHP_VERSION = "8.1" 
+  PHP_VERSION = "8.1"
+  NODE_VERSION = "18.18.0" 
