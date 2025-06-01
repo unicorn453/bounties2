@@ -156,10 +156,24 @@ const BountyExplorer = ({ address }) => {
                 throw new Error('Badge card not found');
             }
 
+            // Create a temporary element for the reporter address
+            const reporterElement = document.createElement('div');
+            reporterElement.className = 'mt-4 pt-4 border-t border-gray-200';
+            reporterElement.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600">
+                        Reporter: ${address || 'Not Connected'}
+                    </span>
+                </div>
+            `;
+
             // Temporarily show full submission ID
             const submissionIdElement = badgeCard.querySelector('[data-submission-id]');
             const originalText = submissionIdElement.textContent;
             submissionIdElement.textContent = `Submission ID: #${badge.submissionId.toString()}`;
+
+            // Add the reporter element to the badge card
+            badgeCard.appendChild(reporterElement);
 
             // Generate PNG using html-to-image
             const dataUrl = await toPng(badgeCard, {
@@ -171,7 +185,8 @@ const BountyExplorer = ({ address }) => {
                 }
             });
 
-            // Restore original text
+            // Clean up
+            badgeCard.removeChild(reporterElement);
             submissionIdElement.textContent = originalText;
 
             return dataUrl;
