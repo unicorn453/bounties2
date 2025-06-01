@@ -6,8 +6,9 @@
     "react-dom": "18.2.0"
   },
   "installConfig": {
-    "legacyPeerDeps": true
-  },
+  "legacyPeerDeps": true
+},
+
   "engines": {
     "node": ">=18.18.0",
     "npm": ">=9.8.1"

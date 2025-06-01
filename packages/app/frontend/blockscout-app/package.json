@@ -32,11 +32,12 @@
     "web3": "^4.16.0"
   },
   "scripts": {
-    "start": "FAST_REFRESH=false react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
-  },
+  "install": "npm install --force",
+  "start": "FAST_REFRESH=false react-app-rewired start",
+  "build": "react-app-rewired build",
+  "test": "react-app-rewired test",
+  "eject": "react-scripts eject"
+},
   "eslintConfig": {
     "extends": [
       "react-app",
