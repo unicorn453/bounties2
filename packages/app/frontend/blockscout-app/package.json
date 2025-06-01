@@ -32,7 +32,10 @@
     "web3": "^4.16.0"
   },
   "scripts": {
-  "install": "npm install --force",
+    "predeploy": "npm run build",
+  "deploy": "gh-pages -d build",
+  "preinstall": "npx npm-force-resolutions",
+  "install": "npm install --legacy-peer-deps",
   "start": "FAST_REFRESH=false react-app-rewired start",
   "build": "react-app-rewired build",
   "test": "react-app-rewired test",
