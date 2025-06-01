@@ -1,6 +1,6 @@
 [build]
   publish = "packages/app/frontend/blockscout-app"
-  command = "npm run build"
+  command = "npm install --legacy-peer-deps && npm run build"
 
 [build.environment]
   PHP_VERSION = "8.1" 
